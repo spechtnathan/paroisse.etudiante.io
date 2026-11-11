@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accueil — Pastorale Étudiante de Louvain-la-Neuve (@pastoralelln)</title>
+  <meta name="description" content="Bienvenue à la Paroisse Étudiante de Louvain-la-Neuve : Messe des Étudiants le mercredi à 18h30 à l'Église Saint-François, boussole des parcours étudiants et vie fraternelle sur le campus." />
+  <link rel="icon" type="image/jpeg" href="assets/logo-ig.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Cormorant+Garamond:ital,wght@0,700;1,700&family=Montserrat:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ========================================================================
+       NAVIGATION MULTI-PAGES (5 PAGES DÉDIÉES ET ALLÉGÉES)
+       ======================================================================== -->
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="accueil.html" class="brand" aria-label="Retour à l'accueil Pastorale Étudiante LLN">
+        <img src="assets/logo-ig.jpg" alt="Logo Pastorale Étudiante LLN" class="brand__logo" />
+        <div class="brand__text">
+          <span class="brand__title">PASTORALE ÉTUDIANTE</span>
+          <span class="brand__subtitle">Paroisse Étudiante • Louvain-la-Neuve</span>
+        </div>
+      </a>
+
+      <nav class="nav-links" id="navLinks" aria-label="Navigation principale">
+        <a href="accueil.html" class="nav-btn active">
+          Accueil
+        </a>
+        <a href="agenda.html" class="nav-btn">
+          Agenda &amp; Horaires <span class="nav-btn__badge" id="navEventsCount">5</span>
+        </a>
+        <a href="photos.html" class="nav-btn">
+          Photos <span class="nav-btn__badge" id="navPhotosCount">14</span>
+        </a>
+        <a href="kots.html" class="nav-btn">
+          Les Kots <span class="nav-btn__badge" id="navKotsCount">11</span>
+        </a>
+        <a href="equipe.html" class="nav-btn">
+          L'Équipe &amp; Infos
+        </a>
+      </nav>
+
+      <div class="navbar__actions">
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Menu">
+          ☰
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       CONTENU DE LA PAGE D'ACCUEIL (ALLÉGÉ : HERO + "JE VEUX..." + CARREFOUR)
+       ======================================================================== -->
+  <main id="view-accueil" class="view-section active">
+
+    <!-- 1. HERO SECTION + CARTE FOCUS MESSE DU MERCREDI 18H30 -->
+    <section class="hero">
+      <div class="hero__bg" role="presentation"></div>
+      <div class="hero__overlay" role="presentation"></div>
+
+      <div class="container hero__grid">
+        <div>
+          <span class="eyebrow eyebrow--light">⛪ Paroisse Étudiante de Louvain-la-Neuve</span>
+          <h1 class="hero__title">
+            Vivre sa foi, grandir &amp; <span class="hero__title-script">fraterniser</span> au cœur du campus.
+          </h1>
+          <p class="hero__lead">
+            Que tu sois nouveau à Louvain-la-Neuve, habitué du mercredi soir ou simplement en recherche : la Pastorale Étudiante t'accueille pour prier, chanter, te former et partager de vraies amitiés.
+          </p>
+          <div class="hero__ctas">
+            <a href="agenda.html" class="btn btn--warm">
+              📅 Voir l'Agenda &amp; les Horaires
+            </a>
+            <a href="kots.html" class="btn btn--outline-light">
+              🏠 Découvrir les 11 Kots chrétiens
+            </a>
+            <a href="equipe.html" class="btn btn--outline-light">
+              🍉 L'Équipe &amp; Infos pratiques
+            </a>
+          </div>
+          <div class="hero__stats">
+            <div>
+              <div class="hero__stat-num">Mercredi 18h30</div>
+              <div class="hero__stat-label">Messe des Étudiants + aftermesse</div>
+            </div>
+            <div>
+              <div class="hero__stat-num">11 Kots</div>
+              <div class="hero__stat-label">&amp; résidences chrétiennes à LLN</div>
+            </div>
+            <div>
+              <div class="hero__stat-num">?????</div>
+              <div class="hero__stat-label">???????????????</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Carte Spotlight "Messe des Étudiants" -->
+        <aside class="messe-spotlight-card" aria-label="Rendez-vous Messe des Étudiants">
+          <span class="messe-spotlight-card__tag">✨ Le Grand RDV Hebdo</span>
+          <h2 class="messe-spotlight-card__title">Messe des Étudiants</h2>
+          <div class="messe-spotlight-card__time" id="spotlightTime">Mercredi à 18h30</div>
+
+          <div class="messe-spotlight-card__kot-box">
+            <div class="messe-spotlight-card__kot-label">PRÉPARÉE CETTE SEMAINE PAR</div>
+            <div class="messe-spotlight-card__kot-value" id="spotlightKot">Le Calleg (Collège Albert le Grand)</div>
+          </div>
+
+          <div class="messe-spotlight-card__meta">
+            <span id="spotlightTheme">🎶 Animée par la chorale étudiante &amp; suivie d'un verre convivial</span>
+            <span id="spotlightLocation">📍 Église Saint-François d'Assise (face au Martin's Agora)</span>
+            <span id="spotlightSunday">🕯️ Aussi le dimanche à 20h00 chez les Dominicains (+ repas)</span>
+          </div>
+
+          <div class="messe-spotlight-card__footer">
+            <button class="btn btn--primary" onclick="openPathwayModal('messe-chorale')">
+              Infos Messe &amp; Chorale →
+            </button>
+            <a href="agenda.html#horaires-section" class="btn btn--outline" style="border-color: var(--pasto-burgundy); color: var(--pasto-burgundy);">
+              Tous les horaires
+            </a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 2. SECTION "JE VEUX..." (LES 6 PORTES D'ENTRÉE) -->
+    <section class="pathways-section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">🧭 Ton parcours à Louvain-la-Neuve</span>
+            <h2 class="section-title">
+              Dis-nous ce que tu <span class="script-accent">cherches</span> aujourd'hui
+            </h2>
+            <p class="section-subtitle">
+              Clique sur une porte d'entrée pour découvrir comment rejoindre une activité, un groupe, la chorale ou un kot.
+            </p>
+          </div>
+        </div>
+
+        <div class="pathways-grid" id="pathwaysGrid"></div>
+      </div>
+    </section>
+
+    <!-- 3. CARREFOUR VERS LES 4 PAGES DÉDIÉES DU SITE (POUR NE PAS SURCHARGER L'ACCUEIL) -->
+    <section class="pages-hub-section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">🗂️ Explorer la Paroisse Étudiante</span>
+            <h2 class="section-title">
+              Toutes nos rubriques en <span class="serif-accent">accès direct</span>
+            </h2>
+            <p class="section-subtitle">
+              Chaque rubrique dispose de sa propre page dédiée pour une navigation rapide et claire.
+            </p>
+          </div>
+        </div>
+
+        <div class="pages-hub-grid">
+          <a href="agenda.html" class="page-hub-card page-hub-card--red">
+            <div>
+              <div class="page-hub-card__icon">📅</div>
+              <div class="page-hub-card__kicker">Page 02 • Hebdo &amp; Messes</div>
+              <h3 class="page-hub-card__title">Agenda &amp; Horaires</h3>
+              <p class="page-hub-card__desc">
+                L'Agenda de la Semaine, tous les horaires des messes &amp; confessions à LLN et le calendrier complet des événements.
+              </p>
+            </div>
+            <span class="page-hub-card__cta">Ouvrir l'Agenda →</span>
+          </a>
+
+          <a href="photos.html" class="page-hub-card">
+            <div>
+              <div class="page-hub-card__icon">📸</div>
+              <div class="page-hub-card__kicker">Page 03 • En images</div>
+              <h3 class="page-hub-card__title">Galerie Photos</h3>
+              <p class="page-hub-card__desc">
+                Revivez en photos les messes du mercredi soir, la chorale, les 24h Vélo et la Nuit des Sans-Abri par albums.
+              </p>
+            </div>
+            <span class="page-hub-card__cta">Voir les albums →</span>
+          </a>
+
+          <a href="kots.html" class="page-hub-card">
+            <div>
+              <div class="page-hub-card__icon">🏠</div>
+              <div class="page-hub-card__kicker">Page 04 • Colocations</div>
+              <h3 class="page-hub-card__title">Les 11 Kots &amp; Résidences</h3>
+              <p class="page-hub-card__desc">
+                Annuaire complet des 11 kots à projet chrétien, foyers et pédagogies ignatiennes présents sur le campus.
+              </p>
+            </div>
+            <span class="page-hub-card__cta">Explorer les 11 Kots →</span>
+          </a>
+
+          <a href="equipe.html" class="page-hub-card">
+            <div>
+              <div class="page-hub-card__icon">🍉</div>
+              <div class="page-hub-card__kicker">Page 05 • Contact &amp; Accès</div>
+              <h3 class="page-hub-card__title">L'Équipe &amp; Infos Pratiques</h3>
+              <p class="page-hub-card__desc">
+                Rencontrez « La Pastèque », les étudiants au foulard rouge du CPE, le ComKot et trouvez l'Église Saint-François.
+              </p>
+            </div>
+            <span class="page-hub-card__cta">Contacter l'équipe →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. APERÇU LÉGER DES 3 PROCHAINS ÉVÉNEMENTS -->
+    <section class="events-section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">🗓️ À la une cette semaine</span>
+            <h2 class="section-title">
+              Les 3 prochains <span class="script-accent">Rendez-vous</span>
+            </h2>
+          </div>
+          <a href="agenda.html" class="btn btn--primary">
+            Voir tout l'Agenda &amp; les Horaires →
+          </a>
+        </div>
+
+        <div class="events-grid" id="homeEventsGrid"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       PIED DE PAGE MULTI-PAGES
+       ======================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div style="display:flex; align-items:center; gap:0.85rem; margin-bottom:1rem;">
+            <img src="assets/logo-ig.jpg" alt="Logo Pastorale Étudiante LLN" style="width:46px; height:46px; border-radius:50%;" />
+            <div>
+              <strong style="font-family:var(--font-display); font-size:1.05rem; color:#FFFFFF; display:block;">PASTORALE ÉTUDIANTE LLN</strong>
+              <span style="font-size:0.8rem; color:var(--pasto-yellow);">Paroisse Étudiante de Louvain-la-Neuve</span>
+            </div>
+          </div>
+          <p style="font-size:0.88rem; color:rgba(255,255,255,0.75); margin-bottom:1rem;">
+            Église Saint-François d'Assise<br/>
+            Avenue Jean-Libert Hennebel 30B, 1348 Louvain-la-Neuve (face au Martin's Agora).
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-col__title">Pages du site</h4>
+          <div class="footer-links">
+            <a href="accueil.html">Accueil</a>
+            <a href="agenda.html">Agenda &amp; Horaires</a>
+            <a href="photos.html">Galerie Photos</a>
+            <a href="kots.html">Les 11 Kots chrétiens</a>
+            <a href="equipe.html">L'Équipe &amp; Infos pratiques</a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-col__title">Rendez-vous</h4>
+          <div class="footer-links">
+            <span>⛪ Mercredi 18h30 : Messe Étudiants</span>
+            <span>🎬 Mardi 20h00 : Soirée Kot Carrefour</span>
+            <span>🕯️ Dimanche 20h00 : Messe Dominicains</span>
+            <span>🙏 Lun–Ven 18h00 : Adoration &amp; Confessions</span>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-col__title">Liens utiles</h4>
+          <div class="footer-links">
+            <a href="https://www.instagram.com/pastoralelln/" target="_blank" rel="noopener">📸 Instagram @pastoralelln</a>
+            <a href="https://www.paroissesaintfrancois.be/etudiants" target="_blank" rel="noopener">🌐 Paroisse Saint-François</a>
+            <a href="admin.html" style="color:var(--pasto-yellow); font-weight:700; margin-top:0.4rem;">Accès Admin</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© Paroisse Étudiante de Louvain-la-Neuve — Pastorale Étudiante LLN (@pastoralelln)</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       MODALES PARTAGÉES ("JE VEUX..." & STUDIO COMKOT)
+       ======================================================================== -->
+  <div class="modal-backdrop" id="pathwayModal" onclick="if(event.target===this) closeModal('pathwayModal')">
+    <div class="modal-box" role="dialog" aria-modal="true">
+      <button class="modal-close" onclick="closeModal('pathwayModal')" aria-label="Fermer">✕</button>
+      <div id="pathwayModalContent"></div>
+    </div>
+  </div>
+
+  <div id="toastNotification" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
