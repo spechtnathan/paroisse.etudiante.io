@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pastorale Étudiante de Louvain-la-Neuve | Paroisse Étudiante (@pastoralelln)</title>
+  <meta name="description" content="Bienvenue à la Paroisse Étudiante de Louvain-la-Neuve (Pastorale Étudiante LLN) : Messe des Étudiants le mercredi à 18h30 à l'Église Saint-François, soirées The Chosen, P.A.F., chorale, sacrements et 11 kots chrétiens." />
+  <link rel="icon" type="image/jpeg" href="assets/logo-ig.jpg" />
+
+  <!-- Google Fonts correspondant à la charte @pastoralelln :
+       Montserrat (Titres gras uppercase), Cormorant Garamond (Serif éditorial),
+       Caveat (Script manuscrit jaune), Plus Jakarta Sans (Corps de texte moderne) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Cormorant+Garamond:ital,wght@0,700;1,700&family=Montserrat:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ========================================================================
+       BANNIÈRE D'ANNONCE SUPÉRIEURE (Modifiable via l'Espace ComKot)
+       ======================================================================== -->
+  <div class="top-banner">
+    <div class="top-banner__inner">
+      <div class="top-banner__content">
+        <span class="top-banner__pill" id="topBannerPill">Mercredi 18h30</span>
+        <span id="topBannerText">Messe des Étudiants chaque mercredi à 18h30 à l'Église Saint-François (suivie d'un verre convivial) !</span>
+      </div>
+      <div class="top-banner__links">
+        <a href="accueil.html" style="background:#FFE169; color:#940531; padding:0.18rem 0.65rem; border-radius:999px; font-weight:800;">🗂️ Version Multi-Pages</a>
+        <a href="epure.html" style="background:rgba(255,255,255,0.2); padding:0.18rem 0.65rem; border-radius:999px; font-weight:700;">✨ Version Épurée</a>
+        <a href="moderne.html" style="background:rgba(255,225,105,0.25); color:#FFE169; padding:0.18rem 0.65rem; border-radius:999px; font-weight:700;">🚀 Version Spatiale 3D</a>
+        <span>•</span>
+        <a href="https://www.instagram.com/pastoralelln/" target="_blank" rel="noopener">📸 @pastoralelln</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       NAVIGATION PRINCIPALE (SPA Hybride)
+       ======================================================================== -->
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <button class="brand" onclick="switchView('accueil')" aria-label="Retour à l'accueil Pastorale Étudiante LLN">
+        <img src="assets/logo-ig.jpg" alt="Logo Pastorale Étudiante LLN" class="brand__logo" />
+        <div class="brand__text">
+          <span class="brand__title">PASTORALE ÉTUDIANTE</span>
+          <span class="brand__subtitle">Paroisse Étudiante • Louvain-la-Neuve</span>
+        </div>
+      </button>
+
+      <nav class="nav-links" id="navLinks" aria-label="Navigation principale">
+        <button class="nav-btn active" data-view="accueil" onclick="switchView('accueil')">
+          Accueil
+        </button>
+        <button class="nav-btn" data-view="agenda" onclick="switchView('agenda')">
+          Agenda &amp; Horaires <span class="nav-btn__badge" id="navEventsCount">5</span>
+        </button>
+        <button class="nav-btn" data-view="photos" onclick="switchView('photos')">
+          Photos <span class="nav-btn__badge" id="navPhotosCount">14</span>
+        </button>
+        <button class="nav-btn" data-view="kots" onclick="switchView('kots')">
+          Les Kots <span class="nav-btn__badge" id="navKotsCount">11</span>
+        </button>
+        <button class="nav-btn" onclick="switchView('accueil', 'equipe-section')">
+          L'Équipe
+        </button>
+        <button class="nav-btn" onclick="switchView('accueil', 'contact-section')">
+          Infos &amp; Contact
+        </button>
+      </nav>
+
+      <div class="navbar__actions">
+        <button class="btn btn--comkot" onclick="openComkotStudio()" title="Ajouter des événements ou photos (ComKot)">
+          🔒 Espace ComKot
+        </button>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Menu">
+          ☰
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       VUE 1 : ACCUEIL COMPLET (Inspiré de Toulouse + Identité @pastoralelln)
+       ======================================================================== -->
+  <main id="view-accueil" class="view-section active">
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="hero__bg" role="presentation"></div>
+      <div class="hero__overlay" role="presentation"></div>
+
+      <!-- Filigrane du clocher de Saint-François (comme sur les Reels @pastoralelln) -->
+
+      <div class="container hero__grid">
+        <div>
+          <span class="eyebrow eyebrow--light">⛪ Paroisse Étudiante de Louvain-la-Neuve</span>
+          <h1 class="hero__title">
+            Vivre sa foi, grandir &amp; <span class="hero__title-script">fraterniser</span> au cœur du campus.
+          </h1>
+          <p class="hero__lead">
+            Que tu sois nouveau à Louvain-la-Neuve, habitué du mercredi soir ou simplement en recherche : la Pastorale Étudiante t'accueille pour prier, chanter, te former et partager de vraies amitiés.
+          </p>
+          <div class="hero__ctas">
+            <button class="btn btn--warm" onclick="switchView('agenda')">
+              📅 Voir l'Agenda de la semaine
+            </button>
+            <button class="btn btn--outline-light" onclick="switchView('kots')">
+              🏠 Découvrir les 11 Kots chrétiens
+            </button>
+            <a href="https://www.instagram.com/pastoralelln/" target="_blank" rel="noopener" class="btn btn--outline-light">
+              📸 @pastoralelln
+            </a>
+          </div>
+          <div class="hero__stats">
+            <div>
+              <div class="hero__stat-num">Mercredi 18h30</div>
+              <div class="hero__stat-label">Messe des Étudiants + verre</div>
+            </div>
+            <div>
+              <div class="hero__stat-num">11 Kots</div>
+              <div class="hero__stat-label">&amp; résidences chrétiennes à LLN</div>
+            </div>
+            <div>
+              <div class="hero__stat-num">Mardi 20h</div>
+              <div class="hero__stat-label">Soirées au Kot Carrefour</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Carte Spotlight "Messe des Étudiants" (style post Instagram @pastoralelln) -->
+        <aside class="messe-spotlight-card" aria-label="Rendez-vous Messe des Étudiants">
+
+          <span class="messe-spotlight-card__tag">✨ Le Grand RDV Hebdo</span>
+          <h2 class="messe-spotlight-card__title">Messe des Étudiants</h2>
+          <div class="messe-spotlight-card__time" id="spotlightTime">Mercredi à 18h30</div>
+
+          <div class="messe-spotlight-card__kot-box">
+            <div class="messe-spotlight-card__kot-label">PRÉPARÉE CETTE SEMAINE PAR</div>
+            <div class="messe-spotlight-card__kot-value" id="spotlightKot">Le Calleg (Collège Albert le Grand)</div>
+          </div>
+
+          <div class="messe-spotlight-card__meta">
+            <span id="spotlightTheme">🎶 Animée par la chorale étudiante &amp; suivie d'un verre convivial</span>
+            <span id="spotlightLocation">📍 Église Saint-François d'Assise (face au Martin's Agora)</span>
+            <span id="spotlightSunday">🕯️ Aussi le dimanche à 20h00 chez les Dominicains (+ repas)</span>
+          </div>
+
+          <div class="messe-spotlight-card__footer">
+            <button class="btn btn--primary" onclick="openPathwayModal('messe-chorale')">
+              Infos Messe &amp; Chorale →
+            </button>
+            <button class="btn btn--outline" style="border-color: var(--pasto-burgundy); color: var(--pasto-burgundy);" onclick="switchView('accueil', 'horaires-section')">
+              Tous les horaires
+            </button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- SECTION "JE VEUX..." (Inspirée de etudiants-toulouse.catholique.fr) -->
+    <section class="pathways-section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">🧭 Ton parcours à Louvain-la-Neuve</span>
+            <h2 class="section-title">
+              Dis-nous ce que tu <span class="script-accent">cherches</span> aujourd'hui
+            </h2>
+            <p class="section-subtitle">
+              Clique sur une porte d'entrée pour découvrir comment rejoindre une activité, un groupe, la chorale ou un kot.
+            </p>
+          </div>
+        </div>
+
+        <div class="pathways-grid" id="pathwaysGrid">
+          <!-- Injecté dynamiquement par app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION L'AGENDA DE LA SEMAINE (Charte @pastoralelln : fond rouge #D61C31 + cartes blanches festonnées) -->
+    <section class="weekly-agenda-section">
+
+      <div class="container weekly-board">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow eyebrow--warm">📌 Chaque semaine à la Pasto</span>
+            <h2 class="section-title section-title--light" style="color: #FFFFFF;">
+              L'AGENDA DE LA <span class="script-accent">Semaine</span>
+            </h2>
+            <p class="section-subtitle" style="color: rgba(255,255,255,0.88);">
+              Nos rendez-vous réguliers pendant les semaines de cours à Louvain-la-Neuve.
+            </p>
+          </div>
+          <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+            <button class="btn btn--warm" onclick="switchView('agenda')">
+              Voir tous les événements →
+            </button>
+          </div>
+        </div>
+
+        <div class="weekly-grid" id="homeWeeklyGrid">
+          <!-- Injecté dynamiquement par app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION HORAIRES DES MESSES & CONFESSIONS À LLN -->
+    <section class="horaires-section" id="horaires-section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">🔔 Prière &amp; Liturgie à LLN</span>
+            <h2 class="section-title">
+              Horaires des <span class="serif-accent">Messes</span> &amp; Confessions
+            </h2>
+            <p class="section-subtitle">
+              Tous les horaires pour prier en semaine ou le week-end à l'Église Saint-François, chez les Dominicains et à la Chapelle de la Source.
+            </p>
+          </div>
+        </div>
+
+        <div class="horaires-grid">
+          <!-- Carte 1 : Messes Étudiantes -->
+          <div class="horaire-card horaire-card--featured">
+            <span class="horaire-card__badge">Spécial Étudiants (Année académique)</span>
+            <h3 class="horaire-card__title">Messes des Étudiants</h3>
+            <p class="horaire-card__location">📍 Église Saint-François &amp; Couvent des Dominicains</p>
+            <div class="horaire-list">
+              <div class="horaire-item">
+                <span class="horaire-item__day">Mercredi (St-François)</span>
+                <span class="horaire-item__time">18h30 (+ verre)</span>
+              </div>
+              <div class="horaire-item">
+                <span class="horaire-item__day">Répétition Chorale</span>
+                <span class="horaire-item__time">Mercredi 17h30</span>
+              </div>
+              <div class="horaire-item">
+                <span class="horaire-item__day">Dimanche soir (Dominicains)</span>
+                <span class="horaire-item__time">20h00 (+ souper)</span>
+              </div>
+              <div class="horaire-item">
+                <span class="horaire-item__day">Soirée Kot Carrefour</span>
+                <span class="horaire-item__time">Mardi 20h00</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Carte 2 : Église Saint-François (Semaine & Dimanche) -->
+          <div class="horaire-card">
+            <span class="horaire-card__badge">Paroisse Saint-François</span>
+            <h3 class="horaire-card__title">Messes Paroissiales</h3>
+            <p class="horaire-card__location">📍 Av. Jean-Libert Hennebel 30B (face au Martin's)</p>
+            <div class="horaire-list">
+              <div class="horaire-item">
+                <span class="horaire-item__day">Lundi au Vendredi</span>
+                <span class="horaire-item__time">18h30</span>
+              </div>
+              <div class="horaire-item">
+                <span class="horaire-item__day">Dimanche matin</span>
+                <span class="horaire-item__time">9h00 &amp; 10h30</span>
+              </div>
+              <div class="horaire-item">
+                <span class="horaire-item__day">Chapelle de la Source (Mer.)</span>
+                <span class="horaire-item__time">11h00</span>
+              </div>
+              <div class="horaire-item">
+                <span class="horaire-item__day">Chapelle de la Source (Sam.)</span>
+                <span class="horaire-item__time">18h00 (anticipée)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Carte 3 : Adoration, Prière & Confessions -->
+          <div class="horaire-card">
+            <span class="horaire-card__badge">Adoration &amp; Écoute</span>
+            <h3 class="horaire-card__title">Prière &amp; Confessions</h3>
+            <p class="horaire-card__location">📍 Église Saint-François &amp; Communautés</p>
+            <div class="horaire-list">
+              <div class="horaire-item">
+                <span class="horaire-item__day">Adoration &amp; Confessions</span>
+                <span class="horaire-item__time">Lun–Ven 18h00–18h25</span>
+              </div>
+              <div class="horaire-item">
+                <span class="horaire-item__day">Chapelet (Mar.) / Vêpres (Jeu.)</span>
+                <span class="horaire-item__time">18h00 à St-François</span>
+              </div>
+              <div class="horaire-item">
+                <span class="horaire-item__day">Messe chez les Salésiennes</span>
+                <span class="horaire-item__time">Samedi 8h30</span>
+              </div>
+              <div class="horaire-item">
+                <span class="horaire-item__day">Rencontrer un prêtre</span>
+                <span class="horaire-item__time">Sur RDV ou après messe</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION PROCHAINS ÉVÉNEMENTS (APERÇU ACCUEIL) -->
+    <section class="events-section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">🗓️ À ne pas manquer</span>
+            <h2 class="section-title">
+              Prochains <span class="script-accent">Événements</span> &amp; Temps forts
+            </h2>
+            <p class="section-subtitle">
+              Messes à thème, soirées The Chosen, parcours P.A.F., actions solidaires aux 24h Vélo et retraites.
+            </p>
+          </div>
+          <button class="btn btn--primary" onclick="switchView('agenda')">
+            Tout le calendrier →
+          </button>
+        </div>
+
+        <div class="events-grid" id="homeEventsGrid">
+          <!-- Injecté dynamiquement par app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION GALERIE PHOTOS (APERÇU ACCUEIL) -->
+    <section class="gallery-section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">📸 La Pasto en images</span>
+            <h2 class="section-title">
+              Moments de <span class="serif-accent">Fraternité</span> &amp; Liturgie
+            </h2>
+            <p class="section-subtitle">
+              Retour en photos sur les messes du mercredi, la chorale étudiante et les 24h Vélo. Clique sur une photo pour l'agrandir !
+            </p>
+          </div>
+          <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+            <button class="btn btn--primary" onclick="switchView('photos')">
+              Explorer tous les albums →
+            </button>
+            <button class="btn btn--outline" onclick="openComkotStudio(); switchStudioTab('photos')">
+              + Ajouter des photos (ComKot)
+            </button>
+          </div>
+        </div>
+
+        <div class="photos-masonry" id="homePhotosGrid">
+          <!-- Injecté dynamiquement par app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION KOTS CHRÉTIENS (APERÇU ACCUEIL) -->
+    <section class="kots-section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">🏠 Colocation &amp; Vie communautaire</span>
+            <h2 class="section-title">
+              Les <span class="script-accent">Kots</span> &amp; Résidences chrétiennes
+            </h2>
+            <p class="section-subtitle">
+              À Louvain-la-Neuve, 11 kots, foyers et résidences te proposent de vivre une année d'étude fraternelle, engagée et priante.
+            </p>
+          </div>
+          <button class="btn btn--primary" onclick="switchView('kots')">
+            Voir les 11 Kots &amp; Résidences →
+          </button>
+        </div>
+
+        <div class="kots-grid" id="homeKotsGrid">
+          <!-- Injecté dynamiquement par app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION L'ÉQUIPE ("LA PASTÈQUE", LE CPE & LE COMKOT) -->
+    <section class="team-section" id="equipe-section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">🧣 Qui sommes-nous ?</span>
+            <h2 class="section-title">
+              L'Équipe <span class="serif-accent">« La Pastèque »</span> &amp; le CPE
+            </h2>
+            <p class="section-subtitle">
+              Une équipe de prêtres, d'animateurs pastoraux et d'étudiants engagés (reconnaissables à leur foulard rouge le mercredi soir !) à ton écoute.
+            </p>
+          </div>
+        </div>
+
+        <div class="team-banner-grid">
+          <div class="team-photo-frame">
+            <img src="assets/equipe-pasteque.png" alt="Équipe pastorale La Pastèque et prêtres de Louvain-la-Neuve" loading="lazy" />
+            <div class="team-photo-caption">
+              <strong>L'équipe pastorale (« La Pastèque ») &amp; le CPE</strong> — N'hésite pas à venir nous saluer à la fin de la messe du mercredi autour d'un verre !
+            </div>
+          </div>
+
+          <div>
+            <h3 style="font-family: var(--font-display); font-size: 1.45rem; font-weight: 900; margin-bottom: 0.75rem; color: var(--pasto-red);">
+              Un accueil fraternel au cœur du campus
+            </h3>
+            <p style="color: var(--text-muted); margin-bottom: 1rem;">
+              La Pastorale Étudiante de Louvain-la-Neuve est portée conjointement par :
+            </p>
+            <ul style="display:flex; flex-direction:column; gap:0.75rem; margin-bottom: 1.5rem; font-size: 0.95rem;">
+              <li>
+                <strong>🍉 « La Pastèque » (Équipe d'accompagnement pastoral) :</strong> nos prêtres (Père Éric Mattheeuws et Père Alexandre Wallemacq), Marie Beaussant (animatrice pastorale), Pierre de Mahieu et Marc Rombouts.
+              </li>
+              <li>
+                <strong>🧣 Le CPE (Conseil de la Pastorale Étudiante) :</strong> 9 étudiants issus des différents kots et groupes de LLN, faciles à repérer grâce à leur <em>foulard rouge</em> et leur badge lors des messes et événements.
+              </li>
+              <li>
+                <strong>📸 Le ComKot :</strong> l'équipe étudiante chargée de la communication, des photos, du compte Instagram <a href="https://www.instagram.com/pastoralelln/" target="_blank" rel="noopener" style="color:var(--pasto-red); font-weight:700;">@pastoralelln</a> et de la mise à jour de ce site.
+              </li>
+            </ul>
+            <div style="display:flex; gap:0.85rem; flex-wrap:wrap;">
+              <a href="https://www.instagram.com/pastoralelln/" target="_blank" rel="noopener" class="btn btn--primary">
+                Contacter le CPE sur Instagram →
+              </a>
+              <button class="btn btn--outline" onclick="openPathwayModal('sacrements-ecoute')">
+                Rencontrer un prêtre
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="team-members-grid" id="teamMembersGrid">
+          <!-- Injecté dynamiquement par app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION CONTACT, ÉGLISE SAINT-FRANÇOIS & APPLICATION OCLOCHER -->
+    <section class="contact-section" id="contact-section">
+      <div class="container">
+        <div class="contact-grid">
+          <div class="contact-card">
+            <span class="eyebrow">📍 Nous trouver à Louvain-la-Neuve</span>
+            <h2 class="section-title" style="font-size: 1.85rem; margin-bottom: 0.75rem;">
+              Venir nous rencontrer
+            </h2>
+            <p style="color: var(--text-muted); margin-bottom: 1.35rem;">
+              L'Église Saint-François d'Assise est située en plein centre piétonnier de Louvain-la-Neuve, juste en face de l'hôtel Martin's Agora.
+            </p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.35rem;">
+              <div style="background: var(--bg-cream); padding: 1rem; border-radius: var(--radius-md);">
+                <strong style="display:block; font-family:var(--font-display); font-size:0.85rem; color:var(--pasto-red);">⛪ Église Saint-François</strong>
+                <span style="font-size:0.88rem; color:var(--text-muted);">Avenue Jean-Libert Hennebel 30B<br/>1348 Louvain-la-Neuve</span>
+              </div>
+              <div style="background: var(--bg-cream); padding: 1rem; border-radius: var(--radius-md);">
+                <strong style="display:block; font-family:var(--font-display); font-size:0.85rem; color:var(--pasto-red);">🏠 Kot Carrefour &amp; Pasto</strong>
+                <span style="font-size:0.88rem; color:var(--text-muted);">Soirées du mardi 20h00<br/>Infos &amp; accès via @pastoralelln</span>
+              </div>
+            </div>
+
+            <img src="assets/eglise-st-francois.png" alt="Église Saint-François d'Assise à Louvain-la-Neuve" style="width:100%; height:200px; object-fit:cover; border-radius:var(--radius-md); margin-bottom:1.25rem;" loading="lazy" />
+
+            <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+              <a href="https://www.google.com/maps/search/?api=1&query=Eglise+Saint-Francois+d+Assise+Louvain-la-Neuve" target="_blank" rel="noopener" class="btn btn--primary">
+                🗺️ Ouvrir dans Google Maps
+              </a>
+              <a href="https://www.instagram.com/pastoralelln/" target="_blank" rel="noopener" class="btn btn--outline">
+                💬 Message privé @pastoralelln
+              </a>
+              <a href="https://www.paroissesaintfrancois.be/etudiants" target="_blank" rel="noopener" class="btn btn--outline">
+                Site Paroisse St-François
+              </a>
+            </div>
+          </div>
+
+          <!-- Carte OClocher & Instagram -->
+          <div class="oclocher-card">
+            <div>
+              <span class="eyebrow eyebrow--warm">📱 Reste connecté(e)</span>
+              <h3 style="font-family: var(--font-display); font-size: 1.65rem; font-weight: 900; margin-bottom: 0.5rem;">
+                Instagram &amp; Appli OClocher
+              </h3>
+              <p style="font-size: 0.94rem; opacity: 0.92;">
+                Chaque dimanche soir, le ComKot publie <strong>L'Agenda de la Semaine</strong> sur Instagram. Tu peux aussi rejoindre la paroisse sur l'application <strong>OClocher</strong> pour recevoir les notifications et horaires !
+              </p>
+              <img src="assets/oclocher-banniere.png" alt="Bannière application OClocher Paroisse Saint-François" class="oclocher-card__img" loading="lazy" />
+            </div>
+
+            <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+              <a href="https://www.instagram.com/pastoralelln/" target="_blank" rel="noopener" class="btn btn--warm">
+                Suivre @pastoralelln sur Instagram →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================================
+       VUE 2 : AGENDA COMPLET, ÉVÉNEMENTS & HORAIRES
+       ======================================================================== -->
+  <section id="view-agenda" class="view-section">
+    <div class="weekly-agenda-section" style="padding: 3.5rem 0;">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow eyebrow--warm">📌 Tableau Hebdomadaire</span>
+            <h1 class="section-title section-title--light" style="color:#FFFFFF;">
+              L'Agenda de la <span class="script-accent">Semaine</span> &amp; Calendrier
+            </h1>
+            <p class="section-subtitle" style="color:rgba(255,255,255,0.9);">
+              Retrouve ici le programme de la semaine ainsi que tous les événements à venir de la Pastorale Étudiante.
+            </p>
+          </div>
+          <button class="btn btn--outline-light" onclick="openComkotStudio(); switchStudioTab('weekly')">
+            ✏️ Modifier l'agenda (ComKot)
+          </button>
+        </div>
+
+        <div class="weekly-grid" id="agendaWeeklyGrid"></div>
+      </div>
+    </div>
+
+    <div class="events-section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">🗓️ Calendrier des activités</span>
+            <h2 class="section-title">Tous les <span class="script-accent">Événements</span></h2>
+            <p class="section-subtitle">
+              Filtre par catégorie ou télécharge un rendez-vous (`.ics`) pour l'ajouter directement à l'agenda de ton téléphone.
+            </p>
+          </div>
+          <button class="btn btn--primary" onclick="openComkotStudio(); switchStudioTab('events')">
+            + Ajouter un événement (ComKot)
+          </button>
+        </div>
+
+        <div class="filter-bar" id="eventsFilterBar"></div>
+        <div class="events-grid" id="fullEventsGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       VUE 3 : GALERIE PHOTOS & ALBUMS (@pastoralelln)
+       ======================================================================== -->
+  <section id="view-photos" class="view-section">
+    <div class="gallery-section" style="min-height: 75vh;">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">📸 Albums Photos de la Pasto</span>
+            <h1 class="section-title">
+              La vie de la <span class="script-accent">Paroisse</span> en photos
+            </h1>
+            <p class="section-subtitle">
+              Sélectionne un album ci-dessous pour revivre les messes des étudiants, les 24h Vélo, les soirées et les temps forts.
+            </p>
+          </div>
+          <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+            <button class="btn btn--primary" onclick="openComkotStudio(); switchStudioTab('photos')">
+              📤 Publier des photos (ComKot)
+            </button>
+            <a href="https://www.instagram.com/pastoralelln/" target="_blank" rel="noopener" class="btn btn--outline">
+              Voir les Reels sur @pastoralelln →
+            </a>
+          </div>
+        </div>
+
+        <div class="albums-bar" id="albumsFilterBar"></div>
+        <div class="photos-masonry" id="fullPhotosGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       VUE 4 : ANNUAIRE DES 11 KOTS CHRÉTIENS & RÉSIDENCES DE LLN
+       ======================================================================== -->
+  <section id="view-kots" class="view-section">
+    <div class="kots-section" style="min-height: 75vh;">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">🏠 Logement &amp; Vie fraternelle à LLN</span>
+            <h1 class="section-title">
+              Annuaire des <span class="script-accent">11 Kots</span> &amp; Résidences
+            </h1>
+            <p class="section-subtitle">
+              Tu cherches un kot chrétien ou une résidence porteuse de sens pour l'année prochaine, ou tu veux rejoindre leurs activités ? Explore les différentes communautés présentes à Louvain-la-Neuve.
+            </p>
+          </div>
+          <button class="btn btn--outline" onclick="openComkotStudio(); switchStudioTab('kots')">
+            ✏️ Mettre à jour les Kots (ComKot)
+          </button>
+        </div>
+
+        <div class="kots-search-row">
+          <div class="search-input-wrap">
+            <span class="search-input-icon">🔍</span>
+            <input type="search" id="kotSearchInput" class="search-input" placeholder="Rechercher un kot (ex: Calleg, Inigo, Saint-Paul, prière...)" />
+          </div>
+          <div class="filter-bar" id="kotsFilterBar" style="margin-bottom:0;"></div>
+        </div>
+
+        <div class="kots-grid" id="fullKotsGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       PIED DE PAGE (FOOTER)
+       ======================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div style="display:flex; align-items:center; gap:0.85rem; margin-bottom:1rem;">
+            <img src="assets/logo-ig.jpg" alt="Logo Pastorale Étudiante LLN" style="width:46px; height:46px; border-radius:50%;" />
+            <div>
+              <strong style="font-family:var(--font-display); font-size:1.05rem; color:#FFFFFF; display:block;">PASTORALE ÉTUDIANTE LLN</strong>
+              <span style="font-size:0.8rem; color:var(--pasto-yellow);">Paroisse Étudiante de Louvain-la-Neuve</span>
+            </div>
+          </div>
+          <p style="font-size:0.88rem; color:rgba(255,255,255,0.75); margin-bottom:1rem;">
+            Église Saint-François d'Assise<br/>
+            Avenue Jean-Libert Hennebel 30B, 1348 Louvain-la-Neuve (face au Martin's Agora).
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-col__title">Navigation</h4>
+          <div class="footer-links">
+            <button onclick="switchView('accueil')" style="text-align:left; color:inherit;">Accueil</button>
+            <button onclick="switchView('agenda')" style="text-align:left; color:inherit;">L'Agenda de la Semaine</button>
+            <button onclick="switchView('photos')" style="text-align:left; color:inherit;">Galerie Photos</button>
+            <button onclick="switchView('kots')" style="text-align:left; color:inherit;">Les 11 Kots chrétiens</button>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-col__title">Rendez-vous</h4>
+          <div class="footer-links">
+            <span>⛪ Mercredi 18h30 : Messe Étudiants</span>
+            <span>🎬 Mardi 20h00 : Soirée Kot Carrefour</span>
+            <span>🕯️ Dimanche 20h00 : Messe Dominicains</span>
+            <span>🙏 Lun–Ven 18h00 : Adoration &amp; Confessions</span>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-col__title">Liens &amp; ComKot</h4>
+          <div class="footer-links">
+            <a href="https://www.instagram.com/pastoralelln/" target="_blank" rel="noopener">📸 Instagram @pastoralelln</a>
+            <a href="https://www.paroissesaintfrancois.be/etudiants" target="_blank" rel="noopener">🌐 Paroisse Saint-François</a>
+            <button onclick="openComkotStudio()" style="text-align:left; color:var(--pasto-yellow); font-weight:700; margin-top:0.4rem;">
+              🔒 Ouvrir l'Espace ComKot (Admin)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© Paroisse Étudiante de Louvain-la-Neuve — Pastorale Étudiante LLN (@pastoralelln)</span>
+        <span>Conçu pour les étudiants de LLN &amp; géré avec ❤️ par le ComKot</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       MODALE 1 : DÉTAIL PARCOURS "JE VEUX..."
+       ======================================================================== -->
+  <div class="modal-backdrop" id="pathwayModal" onclick="if(event.target===this) closeModal('pathwayModal')">
+    <div class="modal-box" role="dialog" aria-modal="true">
+      <button class="modal-close" onclick="closeModal('pathwayModal')" aria-label="Fermer">✕</button>
+      <div id="pathwayModalContent"></div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODALE 2 : LIGHTBOX PLEIN ÉCRAN POUR LES PHOTOS
+       ======================================================================== -->
+  <div class="modal-backdrop" id="lightboxModal" onclick="if(event.target===this) closeModal('lightboxModal')">
+    <div class="lightbox-box" role="dialog" aria-modal="true">
+      <button class="modal-close" style="top:-10px; right:0; background:#FFFFFF;" onclick="closeModal('lightboxModal')" aria-label="Fermer">✕</button>
+      <img id="lightboxImage" src="" alt="" class="lightbox-img" />
+      <div class="lightbox-bar">
+        <button class="btn btn--outline-light" style="padding:0.45rem 0.9rem;" onclick="stepLightbox(-1)">← Précédente</button>
+        <div style="text-align:center;">
+          <div id="lightboxAlbum" style="font-family:var(--font-display); font-size:0.75rem; font-weight:800; color:var(--pasto-yellow); text-transform:uppercase;"></div>
+          <div id="lightboxCaption" style="font-size:0.95rem; font-weight:600;"></div>
+          <div id="lightboxCounter" style="font-size:0.75rem; opacity:0.75;"></div>
+        </div>
+        <button class="btn btn--outline-light" style="padding:0.45rem 0.9rem;" onclick="stepLightbox(1)">Suivante →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODALE 3 : ESPACE COMKOT (STUDIO D'ADMINISTRATION COMPLET)
+       ======================================================================== -->
+  <div class="modal-backdrop" id="comkotModal" onclick="if(event.target===this) closeModal('comkotModal')">
+    <div class="modal-box modal-box--wide" role="dialog" aria-modal="true" aria-label="Espace ComKot Administration">
+      <button class="modal-close" style="background:rgba(255,255,255,0.2); color:#FFFFFF;" onclick="closeModal('comkotModal')" aria-label="Fermer">✕</button>
+
+      <div class="studio-header">
+        <div style="display:flex; align-items:center; gap:0.85rem;">
+          <img src="assets/logo-ig.jpg" alt="" style="width:42px; height:42px; border-radius:50%; border:2px solid #FFF;" />
+          <div>
+            <h2 style="font-family:var(--font-display); font-size:1.25rem; font-weight:900;">Espace ComKot — Studio</h2>
+            <p style="font-size:0.82rem; opacity:0.9;">Ajoutez facilement les photos, événements et l'Agenda de la semaine sans toucher au code</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Écran de déverrouillage PIN ComKot -->
+      <div id="studioLockScreen" style="padding: 3rem 2rem; text-align: center;">
+        <div style="max-width: 380px; margin: 0 auto;">
+          <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🔐</div>
+          <h3 style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 800; margin-bottom: 0.5rem;">
+            Accès réservé au ComKot &amp; CPE
+          </h3>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+            Entrez le code d'accès de l'équipe communication pour gérer l'agenda, les événements et les albums photos.<br/>
+            <span style="font-size:0.78rem; color:var(--pasto-red);">(Code par défaut : <code>pasto1348</code>)</span>
+          </p>
+          <form onsubmit="unlockComkotStudio(event)" style="display:flex; gap:0.5rem;">
+            <input type="password" id="comkotPinInput" class="form-input" style="flex:1;" placeholder="Code d'accès ComKot..." required />
+            <button type="submit" class="btn btn--primary">Déverrouiller</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Interface principale du Studio une fois déverrouillée -->
+      <div id="studioMainScreen" style="display: none;">
+        <div class="studio-tabs">
+          <button class="studio-tab active" data-studio-tab="weekly" onclick="switchStudioTab('weekly')">
+            📌 1. Messe &amp; Agenda de la Semaine
+          </button>
+          <button class="studio-tab" data-studio-tab="events" onclick="switchStudioTab('events')">
+            🗓️ 2. Prochains Événements
+          </button>
+          <button class="studio-tab" data-studio-tab="photos" onclick="switchStudioTab('photos')">
+            📸 3. Albums Photos
+          </button>
+          <button class="studio-tab" data-studio-tab="kots" onclick="switchStudioTab('kots')">
+            🏠 4. Kots &amp; Équipe
+          </button>
+          <button class="studio-tab" data-studio-tab="cloud" onclick="switchStudioTab('cloud')">
+            ☁️ 5. Cloud Sync &amp; Sauvegarde
+          </button>
+        </div>
+
+        <div class="studio-body">
+          <!-- ONGLET 1 : MESSE DU MERCREDI & AGENDA DE LA SEMAINE -->
+          <div class="studio-panel active" id="studio-panel-weekly">
+            <form onsubmit="saveSpotlightAndWeekly(event)">
+              <h3 style="font-family:var(--font-display); font-size:1.05rem; margin-bottom:0.85rem; color:var(--pasto-red);">
+                ✨ Messe des Étudiants de cette semaine &amp; Bannière
+              </h3>
+              <div class="form-grid" style="margin-bottom: 1.5rem;">
+                <div class="form-group">
+                  <label class="form-label">Quel Kot / Groupe prépare la Messe de ce mercredi ?</label>
+                  <input type="text" id="adminWedKot" class="form-input" placeholder="Ex: Le Calleg / La Ribambelle / Le Foyer St-Paul" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Horaire de la Messe du mercredi</label>
+                  <input type="text" id="adminWedTime" class="form-input" placeholder="Mercredi à 18h30" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Sous-titre / Note Messe du mercredi</label>
+                  <input type="text" id="adminWedTheme" class="form-input" placeholder="Animée par la chorale & suivie d'un verre..." />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Lieu de la Messe</label>
+                  <input type="text" id="adminWedLocation" class="form-input" placeholder="Église Saint-François d'Assise" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Badge bannière tout en haut</label>
+                  <input type="text" id="adminBannerPill" class="form-input" placeholder="Mercredi 18h30" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Texte bannière d'annonce tout en haut</label>
+                  <input type="text" id="adminBannerText" class="form-input" placeholder="Annonce rapide..." />
+                </div>
+              </div>
+
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.75rem;">
+                <h3 style="font-family:var(--font-display); font-size:1.05rem; color:var(--pasto-red);">
+                  📌 Cartes de « L'Agenda de la Semaine »
+                </h3>
+                <button type="button" class="btn btn--outline" style="padding:0.4rem 0.85rem; font-size:0.78rem;" onclick="addWeeklyItem()">
+                  + Ajouter un jour / créneau
+                </button>
+              </div>
+              <div id="adminWeeklyList" style="margin-bottom: 1.25rem;"></div>
+
+              <button type="submit" class="btn btn--primary">
+                💾 Enregistrer la Messe &amp; l'Agenda de la Semaine
+              </button>
+            </form>
+          </div>
+
+          <!-- ONGLET 2 : PROCHAINS ÉVÉNEMENTS -->
+          <div class="studio-panel" id="studio-panel-events">
+            <h3 style="font-family:var(--font-display); font-size:1.05rem; margin-bottom:0.85rem; color:var(--pasto-red);">
+              ➕ Publier un nouvel événement
+            </h3>
+            <form id="addEventForm" onsubmit="addNewEvent(event)" style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-card);">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label">Titre de l'événement *</label>
+                  <input type="text" id="newEvtTitle" class="form-input" placeholder="Ex: Messe de rentrée / Soirée The Chosen" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Catégorie</label>
+                  <select id="newEvtCategory" class="form-select">
+                    <option value="Messe">Messe</option>
+                    <option value="Soirée & Foi">Soirée &amp; Foi (The Chosen, PAF...)</option>
+                    <option value="Solidarité">Solidarité / 24h Vélo</option>
+                    <option value="Retraite & Pélé">Retraite &amp; Pélé</option>
+                    <option value="Vie des Kots">Vie des Kots</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Date</label>
+                  <input type="date" id="newEvtDate" class="form-input" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Horaire</label>
+                  <input type="text" id="newEvtTime" class="form-input" placeholder="Ex: 18h30 – 20h00" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Lieu</label>
+                  <input type="text" id="newEvtLocation" class="form-input" placeholder="Ex: Église Saint-François / Kot Carrefour" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Lien d'info ou d'inscription (optionnel)</label>
+                  <input type="url" id="newEvtLink" class="form-input" placeholder="https://www.instagram.com/pastoralelln/" />
+                </div>
+                <div class="form-group form-group--full">
+                  <label class="form-label">Description</label>
+                  <textarea id="newEvtDesc" class="form-textarea" rows="2" placeholder="Détails de la soirée, qui prépare, infos pratiques..."></textarea>
+                </div>
+                <div class="form-group form-group--full">
+                  <label class="form-label">Affiche / Image de couverture (compressée automatiquement)</label>
+                  <input type="file" accept="image/*" onchange="handleEventImageSelect(this)" class="form-input" />
+                  <img id="adminEventImgPreview" src="" alt="Aperçu" style="display:none; width:140px; height:90px; object-fit:cover; border-radius:8px; margin-top:0.5rem;" />
+                </div>
+              </div>
+              <button type="submit" class="btn btn--primary" style="margin-top: 1rem;">
+                🎉 Publier l'événement
+              </button>
+            </form>
+
+            <h3 style="font-family:var(--font-display); font-size:1.05rem; margin-bottom:0.75rem;">
+              📋 Événements actuellement publiés
+            </h3>
+            <div id="adminEventsList"></div>
+          </div>
+
+          <!-- ONGLET 3 : ALBUMS PHOTOS -->
+          <div class="studio-panel" id="studio-panel-photos">
+            <h3 style="font-family:var(--font-display); font-size:1.05rem; margin-bottom:0.85rem; color:var(--pasto-red);">
+              📤 Ajouter une ou plusieurs photos dans un album
+            </h3>
+            <form id="addPhotosForm" onsubmit="publishGalleryPhotos(event)" style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-card);">
+              <div class="form-grid" style="margin-bottom: 1rem;">
+                <div class="form-group">
+                  <label class="form-label">Nom de l'Album *</label>
+                  <input type="text" id="newPhotoAlbum" list="existingAlbumsList" class="form-input" placeholder="Ex: Messe des Étudiants, 24h Vélo & Solidarité..." required />
+                  <datalist id="existingAlbumsList">
+                    <option value="Messe des Étudiants"></option>
+                    <option value="Chorale & Fraternité"></option>
+                    <option value="24h Vélo & Solidarité"></option>
+                    <option value="Soirées Kot Carrefour"></option>
+                    <option value="Vie de la Paroisse"></option>
+                  </datalist>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Mois / Période</label>
+                  <input type="text" id="newPhotoDate" class="form-input" placeholder="Ex: Octobre 2026" />
+                </div>
+                <div class="form-group form-group--full">
+                  <label class="form-label">Légende commune (ou laissez vide pour utiliser le nom du fichier)</label>
+                  <input type="text" id="newPhotoCaption" class="form-input" placeholder="Ex: Messe de rentrée à Saint-François" />
+                </div>
+              </div>
+
+              <label class="dropzone" style="display:block; margin-bottom:1rem;">
+                <input type="file" accept="image/*" multiple onchange="handleGalleryFilesSelect(this)" style="display:none;" />
+                <div style="font-size: 1.8rem; margin-bottom: 0.3rem;">📸</div>
+                <strong id="galleryUploadStatus" style="display:block; color:var(--pasto-red);">
+                  Cliquez ici pour choisir une ou plusieurs photos (compression WebP automatique)
+                </strong>
+                <span style="font-size:0.8rem; color:var(--text-muted);">
+                  Les photos lourdes prises au téléphone ou appareil photo sont redimensionnées automatiquement pour que le site reste ultra-rapide.
+                </span>
+              </label>
+
+              <button type="submit" class="btn btn--primary">
+                🚀 Publier les photos dans l'album
+              </button>
+            </form>
+
+            <h3 style="font-family:var(--font-display); font-size:1.05rem; margin-bottom:0.75rem;">
+              🖼️ Photos dans la galerie
+            </h3>
+            <div id="adminPhotosList"></div>
+          </div>
+
+          <!-- ONGLET 4 : KOTS & ÉQUIPE -->
+          <div class="studio-panel" id="studio-panel-kots">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+              <div>
+                <h3 style="font-family:var(--font-display); font-size:1rem; margin-bottom:0.75rem; color:var(--pasto-red);">
+                  🏠 Ajouter un Kot ou une Résidence
+                </h3>
+                <form id="addKotForm" onsubmit="addNewKot(event)" style="display:flex; flex-direction:column; gap:0.65rem; margin-bottom:1.25rem;">
+                  <input type="text" id="newKotName" class="form-input" placeholder="Nom du Kot *" required />
+                  <div style="display:grid; grid-template-columns: 2fr 1fr; gap:0.5rem;">
+                    <input type="text" id="newKotType" class="form-input" placeholder="Type (ex: Kot chrétien)" />
+                    <input type="text" id="newKotIcon" class="form-input" placeholder="Icône (🏠)" />
+                  </div>
+                  <input type="text" id="newKotContact" class="form-input" placeholder="Contact / Site web / Instagram" />
+                  <input type="text" id="newKotTags" class="form-input" placeholder="Mots-clés séparés par virgule (ex: Prière, Colocation)" />
+                  <textarea id="newKotDesc" class="form-textarea" rows="2" placeholder="Présentation du kot..."></textarea>
+                  <button type="submit" class="btn btn--primary">+ Ajouter ce Kot</button>
+                </form>
+                <div id="adminKotsList"></div>
+              </div>
+
+              <div>
+                <h3 style="font-family:var(--font-display); font-size:1rem; margin-bottom:0.75rem; color:var(--pasto-red);">
+                  🧣 Ajouter un membre de l'Équipe / CPE
+                </h3>
+                <form id="addTeamForm" onsubmit="addNewTeamMember(event)" style="display:flex; flex-direction:column; gap:0.65rem; margin-bottom:1.25rem;">
+                  <input type="text" id="newTeamName" class="form-input" placeholder="Nom & Prénom (ou Groupe) *" required />
+                  <input type="text" id="newTeamRole" class="form-input" placeholder="Rôle (ex: Membre du CPE / Prêtre / ComKot)" />
+                  <input type="text" id="newTeamDetail" class="form-input" placeholder="Détail / Mission" />
+                  <button type="submit" class="btn btn--primary">+ Ajouter à l'équipe</button>
+                </form>
+                <div id="adminTeamList"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ONGLET 5 : CLOUD SYNC (SUPABASE) & SAUVEGARDE DATA.JS -->
+          <div class="studio-panel" id="studio-panel-cloud">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+              <div>
+                <h3 style="font-family:var(--font-display); font-size:1.05rem; margin-bottom:0.5rem; color:var(--pasto-red);">
+                  ☁️ Synchronisation Cloud Gratuite (Supabase)
+                </h3>
+                <p style="font-size:0.86rem; color:var(--text-muted); margin-bottom:1rem;">
+                  Pour que les ajouts du ComKot soient instantanément visibles sur tous les téléphones et ordinateurs sans toucher au code, collez ici l'URL et la clé publique (<code>anon key</code>) d'un projet gratuit <a href="https://supabase.com" target="_blank" rel="noopener" style="color:var(--pasto-red); font-weight:700;">Supabase</a> :
+                </p>
+                <form onsubmit="saveSupabaseConfigForm(event)" style="display:flex; flex-direction:column; gap:0.75rem;">
+                  <div class="form-group">
+                    <label class="form-label">Supabase Project URL</label>
+                    <input type="url" id="adminSupaUrl" class="form-input" placeholder="https://xxxx.supabase.co" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Supabase Anon Public Key</label>
+                    <input type="text" id="adminSupaKey" class="form-input" placeholder="eyJhbGciOiJIUzI1NiIsInR5..." />
+                  </div>
+                  <button type="submit" class="btn btn--primary">
+                    ☁️ Connecter &amp; Synchroniser avec Supabase
+                  </button>
+                </form>
+
+                <div style="margin-top:1.25rem; background:var(--bg-cream); padding:0.9rem; border-radius:var(--radius-sm); font-size:0.78rem;">
+                  <strong>Commande SQL unique à exécuter dans Supabase (SQL Editor) :</strong>
+                  <pre style="margin-top:0.4rem; overflow-x:auto; background:#1E1518; color:#FFE169; padding:0.65rem; border-radius:6px;">create table if not exists pasto_site_state (
+  id text primary key,
+  updated_at timestamptz default now(),
+  payload jsonb not null
+);
+alter table pasto_site_state enable row level security;
+create policy "Public read/write Pasto" on pasto_site_state
+  for all using (true) with check (true);</pre>
+                </div>
+              </div>
+
+              <div>
+                <h3 style="font-family:var(--font-display); font-size:1.05rem; margin-bottom:0.5rem; color:var(--pasto-red);">
+                  📦 Mode sans Cloud : Exporter <code>data.js</code>
+                </h3>
+                <p style="font-size:0.86rem; color:var(--text-muted); margin-bottom:1rem;">
+                  Si vous hébergez le site gratuitement sur GitHub Pages ou Netlify sans base de données cloud, vous pouvez modifier le site ici puis télécharger le fichier <code>data.js</code> mis à jour en un clic !
+                </p>
+                <div style="display:flex; flex-direction:column; gap:0.85rem;">
+                  <button type="button" class="btn btn--warm" onclick="exportDataJsFile()">
+                    📥 Télécharger le fichier data.js mis à jour
+                  </button>
+                  <button type="button" class="btn btn--outline" onclick="resetToDefaultData()">
+                    🔄 Réinitialiser aux valeurs par défaut
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toastNotification" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- Scripts (Zéro dépendance externe, 100% standard & pérenne) -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

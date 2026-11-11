@@ -1,0 +1,1771 @@
+/* ============================================================================
+   PASTORALE ÉTUDIANTE DE LOUVAIN-LA-NEUVE — VERSION MODERNE SPATIALE (3D / SCROLLYTELLING)
+   ============================================================================
+   Concept : Le scroll vertical ne fait pas défiler la page vers le bas de façon
+   linéaire. Il pilote une caméra spatiale à travers 6 chapitres épinglés (sticky) :
+   01. Portail 3D (Zoom sur l'axe Z + Ouverture latérale des portes)
+   02. Travelling Horizontal (Le scroll vertical déplace l'Agenda de droite à gauche)
+   03. Boussole Orbitale 360° (Le scroll vertical fait tourner la roue "Je veux...")
+   04. Double Pellicule en Contre-Sens (Deux rubans photos glissant en sens opposés)
+   05. Deck 3D en Éventail (Les Kots défilent sur un arc 3D avec rotation Y)
+   06. Lever de Rideau Final (Équipe "La Pastèque" & Église Saint-François)
+   ============================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap');
+
+:root {
+  --bg-obsidian: #09090D;
+  --bg-stage: #0F0E15;
+  --bg-card-glass: rgba(24, 22, 32, 0.76);
+  --bg-card-light: #16151F;
+  --bg-alabaster: #FAF8F5;
+
+  --pasto-red: #D61C31;
+  --pasto-red-glow: #FF2E46;
+  --pasto-burgundy: #940531;
+  --pasto-gold: #FFE169;
+  --pasto-amber: #FF8C42;
+
+  --text-white: #F7F5F0;
+  --text-silver: #A9A5B8;
+  --text-muted: #6E6A7C;
+  --text-dark: #16141C;
+
+  --border-glass: rgba(255, 255, 255, 0.11);
+  --border-accent: rgba(214, 28, 49, 0.45);
+
+  --font-display: 'Syne', 'Plus Jakarta Sans', sans-serif;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --radius-sm: 10px;
+  --radius-md: 18px;
+  --radius-lg: 28px;
+  --radius-pill: 9999px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: auto; /* Le lissage est géré par requestAnimationFrame */
+  background-color: var(--bg-obsidian);
+  color: var(--text-white);
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-obsidian);
+  color: var(--text-white);
+  overflow-x: hidden;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* ============================================================================
+   1. BARRE SUPÉRIEURE & NAVIGATION FLOTTANTE (GLASSMORPHISM)
+   ============================================================================ */
+
+.top-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 120;
+  background: rgba(9, 9, 13, 0.85);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-glass);
+  font-size: 0.76rem;
+  padding: 0.4rem 1.5rem;
+}
+
+.top-banner__inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.top-banner__content {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--text-silver);
+}
+
+.top-banner__pill {
+  background: var(--pasto-red);
+  color: #FFFFFF;
+  font-weight: 800;
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.15rem 0.6rem;
+  border-radius: var(--radius-pill);
+}
+
+.top-banner__links {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.version-pill {
+  padding: 0.2rem 0.7rem;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  font-size: 0.72rem;
+  border: 1px solid var(--border-glass);
+  background: rgba(255, 255, 255, 0.06);
+  transition: all 0.2s ease;
+}
+
+.version-pill:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.version-pill--active {
+  background: linear-gradient(135deg, var(--pasto-red), var(--pasto-amber));
+  color: #FFFFFF;
+  border-color: transparent;
+}
+
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 33px;
+  left: 0;
+  right: 0;
+  z-index: 115;
+  padding: 0.75rem 2rem;
+  pointer-events: none;
+}
+
+.navbar__inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: auto;
+  background: rgba(15, 14, 21, 0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-pill);
+  padding: 0.45rem 0.6rem 0.45rem 1rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: left;
+}
+
+.brand__logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 225, 105, 0.5);
+}
+
+.brand__title {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+}
+
+.brand__subtitle {
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--pasto-gold);
+  display: block;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.nav-btn {
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-silver);
+  transition: all 0.2s ease;
+}
+
+.nav-btn:hover {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.nav-btn.active {
+  color: #FFFFFF;
+  background: rgba(214, 28, 49, 0.25);
+  border: 1px solid rgba(214, 28, 49, 0.5);
+}
+
+.nav-btn--comkot {
+  background: linear-gradient(135deg, var(--pasto-red), #B01225);
+  color: #FFFFFF !important;
+  font-weight: 700;
+  margin-left: 0.4rem;
+  box-shadow: 0 6px 20px rgba(214, 28, 49, 0.35);
+}
+
+.nav-btn--comkot:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px rgba(214, 28, 49, 0.5);
+}
+
+.mobile-menu-toggle {
+  display: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--border-glass);
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================================================================
+   2. DOCK DE NAVIGATION SPATIALE (HUD BAS D'ÉCRAN)
+   ============================================================================ */
+
+.spatial-hud {
+  position: fixed;
+  bottom: 1.35rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 110;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.55rem;
+  background: rgba(12, 11, 18, 0.82);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.6);
+}
+
+.hud-step {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.38rem 0.78rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.73rem;
+  font-weight: 700;
+  color: var(--text-silver);
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.hud-step__num {
+  font-size: 0.65rem;
+  opacity: 0.6;
+  font-family: monospace;
+}
+
+.hud-step:hover {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.hud-step.active {
+  background: var(--pasto-red);
+  color: #FFFFFF;
+  box-shadow: 0 4px 16px rgba(214, 28, 49, 0.45);
+}
+
+.hud-motion-badge {
+  padding: 0.32rem 0.75rem;
+  border-left: 1px solid var(--border-glass);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--pasto-gold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ============================================================================
+   3. ARCHITECTURE DES CHAPITRES SPATIAUX (STICKY VIEWPORTS)
+   ============================================================================ */
+
+.view-section {
+  display: none;
+}
+
+.view-section.active {
+  display: block;
+}
+
+.spatial-stage {
+  position: relative;
+  width: 100%;
+}
+
+.spatial-stage--portal {
+  height: 250vh;
+}
+
+.spatial-stage--horizontal {
+  height: 360vh;
+}
+
+.spatial-stage--orbital {
+  height: 320vh;
+}
+
+.spatial-stage--filmstrip {
+  height: 280vh;
+}
+
+.spatial-stage--kotsdeck {
+  height: 340vh;
+}
+
+.spatial-viewport {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1400px;
+}
+
+/* Indicateur d'axe de mouvement en haut à gauche de chaque scène */
+.axis-indicator {
+  position: absolute;
+  top: 6.4rem;
+  left: 2.2rem;
+  z-index: 30;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-glass);
+  backdrop-filter: blur(10px);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--pasto-gold);
+}
+
+.axis-indicator__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--pasto-red-glow);
+  box-shadow: 0 0 10px var(--pasto-red-glow);
+}
+
+/* ============================================================================
+   CHAPITRE 01 : PORTAIL 3D (ZOOM Z-AXIS + RIDEAUX LATÉRAUX)
+   ============================================================================ */
+
+.portal-bg-glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(214, 28, 49, 0.28) 0%, rgba(148, 5, 49, 0.1) 40%, transparent 70%),
+    radial-gradient(circle at 80% 20%, rgba(255, 140, 66, 0.15) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* L'arche centrale qui zoome en 3D sur l'axe Z */
+.portal-arch-frame {
+  position: relative;
+  width: min(86vw, 1180px);
+  height: min(76vh, 680px);
+  border-radius: 260px 260px 28px 28px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 225, 105, 0.35);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.75), 0 0 80px rgba(214, 28, 49, 0.25);
+  will-change: transform, border-radius;
+  transform-style: preserve-3d;
+}
+
+.portal-arch-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.68) contrast(1.08);
+  transform: scale(1.08);
+  will-change: transform, filter;
+}
+
+.portal-arch-vignette {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(9, 9, 13, 0.35) 0%,
+    rgba(9, 9, 13, 0.2) 45%,
+    rgba(9, 9, 13, 0.88) 100%
+  );
+}
+
+/* Volets typographiques gauche & droite qui s'écartent horizontalement */
+.portal-shutter {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.portal-shutter--left {
+  left: 0;
+  align-items: flex-start;
+  background: linear-gradient(90deg, rgba(9, 9, 13, 0.94) 0%, rgba(9, 9, 13, 0.55) 75%, transparent 100%);
+}
+
+.portal-shutter--right {
+  right: 0;
+  align-items: flex-end;
+  text-align: right;
+  background: linear-gradient(270deg, rgba(9, 9, 13, 0.94) 0%, rgba(9, 9, 13, 0.55) 75%, transparent 100%);
+}
+
+.portal-giant-word {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 7.5vw, 7.2rem);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  text-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+}
+
+.portal-giant-word--accent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 600;
+  text-transform: none;
+  background: linear-gradient(135deg, var(--pasto-gold), var(--pasto-amber), var(--pasto-red-glow));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.portal-shutter__sub {
+  margin-top: 1.2rem;
+  max-width: 360px;
+  font-size: 0.98rem;
+  color: var(--text-silver);
+}
+
+/* Carte holographique Messe du Mercredi qui émerge en profondeur Z */
+.portal-spotlight-holo {
+  position: absolute;
+  z-index: 22;
+  width: min(92vw, 760px);
+  padding: 2.2rem 2.5rem;
+  border-radius: var(--radius-lg);
+  background: rgba(15, 14, 22, 0.84);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 225, 105, 0.35);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.75), 0 0 50px rgba(214, 28, 49, 0.3);
+  will-change: transform, opacity;
+}
+
+.portal-holo__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.portal-holo__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.85rem;
+  border-radius: var(--radius-pill);
+  background: rgba(214, 28, 49, 0.25);
+  border: 1px solid rgba(214, 28, 49, 0.55);
+  color: #FF8A98;
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.portal-holo__title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  line-height: 1.08;
+  color: #FFFFFF;
+  margin-bottom: 0.5rem;
+}
+
+.portal-holo__kot-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1.2rem;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-glass);
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+
+.portal-holo__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  font-size: 0.86rem;
+  color: var(--text-silver);
+  margin-bottom: 1.35rem;
+}
+
+.portal-holo__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.scroll-cue-badge {
+  position: absolute;
+  bottom: 5.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.5rem 1.1rem;
+  border-radius: var(--radius-pill);
+  background: rgba(9, 9, 13, 0.75);
+  border: 1px solid var(--border-glass);
+  font-size: 0.76rem;
+  color: var(--text-silver);
+  pointer-events: none;
+}
+
+/* ============================================================================
+   CHAPITRE 02 : TRAVELLING HORIZONTAL (AGENDA & ÉVÉNEMENTS SUR RAIL X)
+   ============================================================================ */
+
+.horizontal-bg-marquee {
+  position: absolute;
+  top: 14%;
+  left: 0;
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 13vw, 12rem);
+  font-weight: 800;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+  user-select: none;
+  will-change: transform;
+}
+
+.horizontal-camera-rig {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 3.5rem;
+  padding: 0 8vw;
+  width: max-content;
+  will-change: transform;
+}
+
+.h-panel {
+  flex-shrink: 0;
+}
+
+.h-panel--intro {
+  width: min(85vw, 520px);
+}
+
+.h-panel__eyebrow {
+  display: inline-block;
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--pasto-gold);
+  margin-bottom: 0.75rem;
+}
+
+.h-panel__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4.2vw, 3.6rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 1rem;
+}
+
+.h-panel__title em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 600;
+  color: var(--pasto-red-glow);
+}
+
+.h-horaires-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.h-horaire-mini {
+  padding: 0.9rem 1.15rem;
+  border-radius: var(--radius-md);
+  background: var(--bg-card-glass);
+  border: 1px solid var(--border-glass);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.h-horaire-mini strong {
+  color: var(--pasto-gold);
+  font-size: 0.85rem;
+}
+
+.h-horaire-mini span {
+  font-size: 0.82rem;
+  color: var(--text-silver);
+}
+
+/* Rail horizontal des créneaux de la semaine (#homeWeeklyGrid) */
+.h-weekly-rail {
+  display: flex;
+  align-items: stretch;
+  gap: 1.25rem;
+}
+
+.h-weekly-rail .weekly-card {
+  width: 280px;
+  flex-shrink: 0;
+  background: linear-gradient(160deg, rgba(28, 25, 38, 0.9), rgba(16, 15, 22, 0.9));
+  border: 1px solid var(--border-glass);
+  border-top: 3px solid var(--pasto-red);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.h-weekly-rail .weekly-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--pasto-gold);
+}
+
+.weekly-card__day {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--pasto-gold);
+  margin-bottom: 0.4rem;
+}
+
+.weekly-card__time {
+  font-family: var(--font-serif);
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1;
+  margin-bottom: 0.65rem;
+}
+
+.weekly-card__title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 0.35rem;
+}
+
+.weekly-card__location {
+  font-size: 0.8rem;
+  color: var(--pasto-amber);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.weekly-card__sub {
+  font-size: 0.82rem;
+  color: var(--text-silver);
+}
+
+/* Rail horizontal des événements (#homeEventsGrid) */
+.h-events-rail {
+  display: flex;
+  align-items: stretch;
+  gap: 1.5rem;
+}
+
+.h-events-rail .event-card {
+  width: 340px;
+  flex-shrink: 0;
+  background: var(--bg-card-light);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.h-events-rail .event-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255, 225, 105, 0.45);
+}
+
+.event-card__media {
+  position: relative;
+  height: 175px;
+  overflow: hidden;
+}
+
+.event-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.event-card__category {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  background: rgba(9, 9, 13, 0.82);
+  backdrop-filter: blur(8px);
+  color: var(--pasto-gold);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.22rem 0.65rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-glass);
+}
+
+.event-card__date-badge {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  background: var(--pasto-red);
+  color: #FFFFFF;
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--radius-sm);
+  text-align: center;
+  line-height: 1.1;
+}
+
+.event-card__date-day {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  display: block;
+}
+
+.event-card__date-month {
+  font-size: 0.62rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.event-card__body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.event-card__title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.2;
+  margin-bottom: 0.4rem;
+}
+
+.event-card__meta {
+  font-size: 0.78rem;
+  color: var(--pasto-gold);
+  margin-bottom: 0.55rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.event-card__desc {
+  font-size: 0.82rem;
+  color: var(--text-silver);
+  margin-bottom: 1rem;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.event-card__footer {
+  display: flex;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-glass);
+}
+
+/* Barre de progression horizontale en bas du chapitre 02 */
+.horizontal-progress-rail {
+  position: absolute;
+  bottom: 5.2rem;
+  left: 8vw;
+  right: 8vw;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.horizontal-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--pasto-red), var(--pasto-gold));
+  will-change: width;
+}
+
+/* ============================================================================
+   CHAPITRE 03 : BOUSSOLE ORBITALE 360° ("JE VEUX...")
+   ============================================================================ */
+
+.orbital-layout {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  align-items: center;
+  gap: 3rem;
+}
+
+.orbital-wheel-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 480px;
+}
+
+.orbital-compass-ring {
+  position: relative;
+  width: min(76vw, 430px);
+  height: min(76vw, 430px);
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 225, 105, 0.35);
+  box-shadow: inset 0 0 60px rgba(214, 28, 49, 0.18);
+  will-change: transform;
+}
+
+.orbital-compass-ring::before {
+  content: "";
+  position: absolute;
+  inset: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.orbital-node {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 58px;
+  height: 58px;
+  margin-top: -29px;
+  margin-left: -29px;
+  border-radius: 50%;
+  background: var(--bg-card-light);
+  border: 1.5px solid var(--border-glass);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.orbital-node.active {
+  background: var(--pasto-red);
+  border-color: var(--pasto-gold);
+  box-shadow: 0 0 30px rgba(214, 28, 49, 0.8);
+}
+
+.orbital-center-hub {
+  position: absolute;
+  width: 155px;
+  height: 155px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #1E1B2B 0%, #0E0D14 100%);
+  border: 1px solid rgba(255, 225, 105, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+  z-index: 5;
+}
+
+.orbital-center-hub span {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--pasto-gold);
+}
+
+.orbital-center-hub strong {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  color: #FFFFFF;
+  margin-top: 0.2rem;
+}
+
+/* Colonne droite : Cartes "Je veux..." empilées en cylindre 3D */
+.orbital-cards-column {
+  position: relative;
+}
+
+.orbital-cards-deck {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.9rem;
+}
+
+.orbital-cards-deck .pathway-card {
+  background: var(--bg-card-glass);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.65rem;
+}
+
+.orbital-cards-deck .pathway-card.orbital-active {
+  background: linear-gradient(145deg, rgba(214, 28, 49, 0.28), rgba(24, 22, 34, 0.95));
+  border-color: var(--pasto-gold);
+  transform: scale(1.04) translateZ(20px);
+  box-shadow: 0 18px 40px rgba(214, 28, 49, 0.28);
+}
+
+.orbital-cards-deck .pathway-card:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-3px);
+}
+
+.pathway-card__icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.pathway-card__kicker {
+  font-size: 0.66rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--pasto-gold);
+}
+
+.pathway-card__title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.15;
+}
+
+.pathway-card__summary {
+  font-size: 0.78rem;
+  color: var(--text-silver);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pathway-card__cta {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--pasto-red-glow);
+}
+
+/* ============================================================================
+   CHAPITRE 04 : DOUBLE PELLICULE CINÉMA EN CONTRE-SENS (PHOTOS)
+   ============================================================================ */
+
+.filmstrip-stage-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+  transform: rotate(-1.8deg);
+}
+
+.filmstrip-header-overlay {
+  transform: rotate(1.8deg);
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto 0.5rem;
+  padding: 0 2rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filmstrip-track {
+  display: flex;
+  gap: 1.25rem;
+  width: max-content;
+  padding: 0 4vw;
+  will-change: transform;
+}
+
+.filmstrip-track .photo-card {
+  position: relative;
+  width: 310px;
+  height: 215px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-glass);
+  cursor: pointer;
+  background: #14131D;
+}
+
+.filmstrip-track .photo-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.filmstrip-track .photo-card:hover .photo-card__img {
+  transform: scale(1.08);
+}
+
+.filmstrip-track .photo-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(9, 9, 13, 0.88) 0%, transparent 60%);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.filmstrip-track .photo-card:hover .photo-card__overlay {
+  opacity: 1;
+}
+
+.photo-card__album {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--pasto-gold);
+}
+
+.photo-card__caption {
+  font-size: 0.82rem;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+/* ============================================================================
+   CHAPITRE 05 : DECK 3D EN ÉVENTAIL DES 11 KOTS
+   ============================================================================ */
+
+.kotsdeck-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.kotsdeck-header {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.kots-3d-rail {
+  display: flex;
+  align-items: stretch;
+  gap: 1.5rem;
+  width: max-content;
+  padding: 1rem 12vw;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.kots-3d-rail .kot-card {
+  width: 330px;
+  flex-shrink: 0;
+  background: linear-gradient(165deg, rgba(29, 27, 41, 0.92), rgba(15, 14, 22, 0.96));
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  padding: 1.65rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  transition: border-color 0.25s ease;
+  will-change: transform;
+}
+
+.kots-3d-rail .kot-card:hover {
+  border-color: var(--pasto-gold);
+}
+
+.kot-card__top {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.kot-card__icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: rgba(214, 28, 49, 0.18);
+  border: 1px solid rgba(214, 28, 49, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  flex-shrink: 0;
+}
+
+.kot-card__type {
+  font-size: 0.66rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--pasto-gold);
+  display: block;
+}
+
+.kot-card__name {
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.15;
+}
+
+.kot-card__desc {
+  font-size: 0.84rem;
+  color: var(--text-silver);
+  margin-bottom: 1rem;
+  flex: 1;
+}
+
+.kot-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.kot-tag {
+  font-size: 0.68rem;
+  padding: 0.18rem 0.55rem;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-silver);
+}
+
+.kot-card__contact {
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--border-glass);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.78rem;
+  color: var(--text-silver);
+}
+
+.kot-card__link {
+  color: var(--pasto-gold);
+  font-weight: 700;
+}
+
+/* ============================================================================
+   CHAPITRE 06 : LEVER DE RIDEAU FINAL (ÉQUIPE & SAINT-FRANÇOIS)
+   ============================================================================ */
+
+.finale-curtain-section {
+  position: relative;
+  z-index: 20;
+  background: linear-gradient(180deg, #12111A 0%, #09090D 100%);
+  border-top: 1px solid var(--border-glass);
+  padding: 7rem 0 8rem;
+  box-shadow: 0 -30px 80px rgba(0, 0, 0, 0.8);
+}
+
+.team-members-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.team-member-card {
+  background: var(--bg-card-glass);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+}
+
+.team-member-card__role {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--pasto-gold);
+  margin-bottom: 0.25rem;
+}
+
+.team-member-card__name {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.team-member-card__detail {
+  font-size: 0.82rem;
+  color: var(--text-silver);
+  margin-top: 0.25rem;
+}
+
+.finale-hub-card {
+  margin-top: 3.5rem;
+  padding: 2.5rem;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(214, 28, 49, 0.2), rgba(24, 22, 34, 0.9));
+  border: 1px solid rgba(255, 225, 105, 0.3);
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+/* ============================================================================
+   VUES SECONDAIRES (AGENDA COMPLET, GALERIE, KOTS) & COMPOSANTS PARTAGÉS
+   ============================================================================ */
+
+.subview-container {
+  padding: 8.5rem 0 6rem;
+  min-height: 100vh;
+}
+
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 2.2rem;
+  flex-wrap: wrap;
+}
+
+.weekly-grid,
+.events-grid,
+.kots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+.weekly-grid .weekly-card,
+.events-grid .event-card,
+.kots-grid .kot-card {
+  width: 100%;
+  background: var(--bg-card-light);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  padding: 1.4rem;
+}
+
+.events-grid .event-card {
+  padding: 0;
+}
+
+.photos-masonry {
+  columns: 3 300px;
+  column-gap: 1.25rem;
+}
+
+.photos-masonry .photo-card {
+  break-inside: avoid;
+  margin-bottom: 1.25rem;
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-glass);
+  cursor: pointer;
+}
+
+.filter-bar,
+.albums-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.filter-chip,
+.album-pill {
+  padding: 0.45rem 1rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-glass);
+  color: var(--text-silver);
+}
+
+.filter-chip.active,
+.album-pill.active {
+  background: var(--pasto-red);
+  color: #FFFFFF;
+  border-color: transparent;
+}
+
+.album-pill__count {
+  opacity: 0.75;
+  font-size: 0.72rem;
+  margin-left: 0.3rem;
+}
+
+.kots-search-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.search-input-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 260px;
+  max-width: 420px;
+}
+
+.search-input-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.65rem 1rem 0.65rem 2.6rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-glass);
+  background: rgba(255, 255, 255, 0.06);
+  color: #FFFFFF;
+  font-family: inherit;
+}
+
+/* Boutons génériques */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.68rem 1.35rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.84rem;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.btn--primary,
+.btn--yellow {
+  background: linear-gradient(135deg, var(--pasto-red), #B31224);
+  color: #FFFFFF;
+  box-shadow: 0 8px 25px rgba(214, 28, 49, 0.35);
+}
+
+.btn--primary:hover,
+.btn--yellow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(214, 28, 49, 0.55);
+}
+
+.btn--outline,
+.btn--outline-light {
+  background: rgba(255, 255, 255, 0.07);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn--outline:hover,
+.btn--outline-light:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--pasto-gold);
+}
+
+/* ============================================================================
+   MODALES (PARCOURS, LIGHTBOX, COMKOT STUDIO)
+   ============================================================================ */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(5, 5, 8, 0.82);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.modal-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-box {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #15141E;
+  color: var(--text-white);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius-lg);
+  padding: 2.2rem;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8);
+}
+
+.modal-box--wide {
+  max-width: 960px;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.1rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.lightbox-box {
+  position: relative;
+  max-width: 1020px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lightbox-img {
+  max-height: 76vh;
+  border-radius: var(--radius-md);
+}
+
+.lightbox-bar {
+  margin-top: 1rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Studio ComKot */
+.studio-header {
+  background: #0D0C13;
+  padding: 1.35rem 2rem;
+  border-bottom: 1px solid var(--border-glass);
+}
+
+.studio-tabs {
+  display: flex;
+  background: #111018;
+  border-bottom: 1px solid var(--border-glass);
+  padding: 0 1.25rem;
+  overflow-x: auto;
+}
+
+.studio-tab {
+  padding: 0.9rem 1.1rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-silver);
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+
+.studio-tab.active {
+  color: var(--pasto-gold);
+  border-bottom-color: var(--pasto-red);
+}
+
+.studio-body {
+  padding: 1.75rem 2rem;
+  overflow-y: auto;
+  max-height: 68vh;
+}
+
+.studio-panel {
+  display: none;
+}
+
+.studio-panel.active {
+  display: block;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.form-group--full {
+  grid-column: 1 / -1;
+}
+
+.form-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-silver);
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  padding: 0.62rem 0.85rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-glass);
+  background: rgba(255, 255, 255, 0.06);
+  color: #FFFFFF;
+  font-family: inherit;
+}
+
+.dropzone {
+  border: 1.5px dashed rgba(255, 225, 105, 0.4);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+.admin-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 0.95rem;
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.5rem;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.admin-item-row__thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.btn-delete {
+  padding: 0.32rem 0.7rem;
+  border-radius: var(--radius-sm);
+  background: rgba(214, 28, 49, 0.2);
+  color: #FF7B8B;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.toast {
+  position: fixed;
+  bottom: 5rem;
+  right: 1.5rem;
+  z-index: 300;
+  background: #1B1926;
+  color: #FFFFFF;
+  border: 1px solid var(--pasto-gold);
+  padding: 0.8rem 1.25rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.84rem;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: all 0.25s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 960px) {
+  .orbital-layout,
+  .finale-hub-card {
+    grid-template-columns: 1fr;
+  }
+  .orbital-wheel-stage {
+    height: 330px;
+  }
+  .orbital-compass-ring {
+    width: 290px;
+    height: 290px;
+  }
+  .portal-shutter {
+    padding: 1.5rem;
+  }
+  .spatial-hud {
+    max-width: 94vw;
+    overflow-x: auto;
+  }
+  .hud-motion-badge {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .mobile-menu-toggle {
+    display: flex;
+  }
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 1rem;
+    right: 1rem;
+    margin-top: 0.5rem;
+    background: #14131D;
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .nav-links.open {
+    display: flex;
+  }
+}

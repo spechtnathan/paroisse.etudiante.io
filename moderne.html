@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pastorale Étudiante LLN — Expérience Spatiale 3D</title>
+  <meta name="description" content="Version moderne interactive (Scrollytelling 3D & Spatial) de la Pastorale Étudiante de Louvain-la-Neuve." />
+  <link rel="icon" type="image/jpeg" href="assets/logo-ig.jpg" />
+  <link rel="stylesheet" href="styles-moderne.css" />
+</head>
+<body>
+
+  <!-- ========================================================================
+       BANNIÈRE SUPÉRIEURE + SÉLECTEUR DE VERSIONS (3 VERSIONS CÔTE À CÔTE)
+       ======================================================================== -->
+  <div class="top-banner">
+    <div class="top-banner__inner">
+      <div class="top-banner__content">
+        <span class="top-banner__pill" id="topBannerPill">Mercredi 18h30</span>
+        <span id="topBannerText">Messe des Étudiants chaque mercredi à 18h30 à l'Église Saint-François (suivie d'un verre convivial) !</span>
+      </div>
+      <div class="top-banner__links">
+        <a href="accueil.html" class="version-pill">🗂️ Multi-Pages</a>
+        <a href="index.html" class="version-pill">🎨 Version Colorée</a>
+        <a href="epure.html" class="version-pill">✨ Version Épurée</a>
+        <a href="moderne.html" class="version-pill version-pill--active">🚀 Version Spatiale 3D</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       NAVIGATION FLOTTANTE (GLASSMORPHISM)
+       ======================================================================== -->
+  <header class="navbar">
+    <div class="navbar__inner">
+      <button class="brand" onclick="switchView('accueil')" aria-label="Retour à l'accueil">
+        <img src="assets/logo-ig.jpg" alt="Logo Pastorale Étudiante LLN" class="brand__logo" />
+        <div>
+          <span class="brand__title">Pastorale Étudiante</span>
+          <span class="brand__subtitle">Louvain-la-Neuve • Spatial</span>
+        </div>
+      </button>
+
+      <button class="mobile-menu-toggle" id="mobileMenuToggle" onclick="toggleMobileMenu()" aria-label="Menu">
+        ☰
+      </button>
+
+      <nav class="nav-links" id="navLinks" aria-label="Navigation principale">
+        <button class="nav-btn active" data-view="accueil" onclick="switchView('accueil')">Expérience 3D</button>
+        <button class="nav-btn" data-view="agenda" onclick="switchView('agenda')">Agenda <span id="navEventsCount" style="opacity:0.65; font-size:0.72rem;"></span></button>
+        <button class="nav-btn" data-view="photos" onclick="switchView('photos')">Photos <span id="navPhotosCount" style="opacity:0.65; font-size:0.72rem;"></span></button>
+        <button class="nav-btn" data-view="kots" onclick="switchView('kots')">Les Kots <span id="navKotsCount" style="opacity:0.65; font-size:0.72rem;">11</span></button>
+        <button class="nav-btn" onclick="warpToStage('equipe-section')">L'Équipe</button>
+        <button class="nav-btn nav-btn--comkot" onclick="openComkotStudio()">⚡ Studio ComKot</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       HUD SPATIAL EN BAS D'ÉCRAN (PILOTAGE DES 6 CHAPITRES NON-LINÉAIRES)
+       ======================================================================== -->
+  <div class="spatial-hud" id="spatialHud" aria-label="Chapitres du parcours spatial">
+    <button class="hud-step active" data-stage="stage-portal" onclick="warpToStage('stage-portal')">
+      <span class="hud-step__num">01</span> Portail Z
+    </button>
+    <button class="hud-step" data-stage="stage-horizontal" onclick="warpToStage('stage-horizontal')">
+      <span class="hud-step__num">02</span> Rail Agenda ↔
+    </button>
+    <button class="hud-step" data-stage="stage-orbital" onclick="warpToStage('stage-orbital')">
+      <span class="hud-step__num">03</span> Boussole 360° ↻
+    </button>
+    <button class="hud-step" data-stage="stage-filmstrip" onclick="warpToStage('stage-filmstrip')">
+      <span class="hud-step__num">04</span> Double Pellicule ⇄
+    </button>
+    <button class="hud-step" data-stage="stage-kotsdeck" onclick="warpToStage('stage-kotsdeck')">
+      <span class="hud-step__num">05</span> Deck 3D Kots 🎴
+    </button>
+    <button class="hud-step" data-stage="equipe-section" onclick="warpToStage('equipe-section')">
+      <span class="hud-step__num">06</span> La Pastèque ↑
+    </button>
+    <div class="hud-motion-badge" id="hudMotionMode">AXE Z : ZOOM 3D</div>
+  </div>
+
+  <!-- ========================================================================
+       VUE 1 : ACCUEIL SPATIAL (LE SCROLL VERTICAL NE DÉFILE PAS SIMPLEMENT EN BAS)
+       ======================================================================== -->
+  <main id="view-accueil" class="view-section active">
+
+    <!-- ======================================================================
+         CHAPITRE 01 : PORTAIL 3D (SCROLL VERTICAL = ZOOM SUR L'AXE Z + RIDEAUX X)
+         ====================================================================== -->
+    <section class="spatial-stage spatial-stage--portal" id="stage-portal">
+      <div class="spatial-viewport">
+        <div class="portal-bg-glow"></div>
+
+        <div class="axis-indicator">
+          <span class="axis-indicator__dot"></span>
+          <span>Chapitre 01 • Scroll Vertical → Zoom Profondeur 3D (Axe Z) &amp; Ouverture Latérale</span>
+        </div>
+
+        <!-- Volet gauche qui coulisse vers la gauche (-X) au scroll -->
+        <div class="portal-shutter portal-shutter--left" id="portalShutterLeft">
+          <span style="font-size:0.75rem; font-weight:800; letter-spacing:0.16em; text-transform:uppercase; color:var(--pasto-gold); margin-bottom:0.6rem;">
+            Paroisse Étudiante • UCLouvain
+          </span>
+          <div class="portal-giant-word">PASTO</div>
+          <div class="portal-giant-word portal-giant-word--accent">Louvain</div>
+          <p class="portal-shutter__sub">
+            Une église jeune, fraternelle et ouverte à tous au cœur du piétonnier de Louvain-la-Neuve.
+          </p>
+        </div>
+
+        <!-- Volet droit qui coulisse vers la droite (+X) au scroll -->
+        <div class="portal-shutter portal-shutter--right" id="portalShutterRight">
+          <span style="font-size:0.75rem; font-weight:800; letter-spacing:0.16em; text-transform:uppercase; color:var(--pasto-gold); margin-bottom:0.6rem;">
+            Église Saint-François • 1348
+          </span>
+          <div class="portal-giant-word">LLN</div>
+          <div class="portal-giant-word portal-giant-word--accent">la-Neuve</div>
+          <p class="portal-shutter__sub">
+            Messe du mercredi soir, 11 kots à projet, soirées spi, chorale et solidarité étudiante.
+          </p>
+        </div>
+
+        <!-- Arche centrale qui zoome en profondeur (Scale3D) -->
+        <div class="portal-arch-frame" id="portalArchFrame">
+          <img src="assets/eglise-saint-francois.jpg" alt="Église Saint-François d'Assise à Louvain-la-Neuve" class="portal-arch-img" id="portalArchImg" />
+          <div class="portal-arch-vignette"></div>
+        </div>
+
+        <!-- Carte holographique Messe du Mercredi qui émerge de la profondeur Z -->
+        <aside class="portal-spotlight-holo" id="portalSpotlightHolo">
+          <div class="portal-holo__top">
+            <span class="portal-holo__live">● Rendez-vous Phare de la Semaine</span>
+            <span style="font-size:0.78rem; color:var(--pasto-gold); font-weight:700;">Verre offert sur le parvis après la messe 🍻</span>
+          </div>
+
+          <h1 class="portal-holo__title" id="spotlightTime">Mercredi à 18h30</h1>
+          <p style="color:var(--text-silver); font-size:0.95rem;" id="spotlightTheme">
+            Messe des Étudiants suivie d'un verre convivial !
+          </p>
+
+          <div class="portal-holo__kot-box">
+            <div>
+              <span style="font-size:0.68rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--pasto-gold); font-weight:800; display:block;">
+                Liturgie &amp; accueil préparés cette semaine par
+              </span>
+              <strong style="font-size:1.08rem; color:#FFFFFF;" id="spotlightKot">Le CPE &amp; les Kots Chrétiens</strong>
+            </div>
+            <span style="font-size:0.78rem; color:var(--text-silver);">🎸 Chorale dès 17h30</span>
+          </div>
+
+          <div class="portal-holo__meta">
+            <span id="spotlightLocation">📍 Église Saint-François d'Assise (en face de l'Agora)</span>
+            <span id="spotlightSunday">🕯️ Aussi le dimanche à 20h00 chez les Dominicains (+ repas)</span>
+          </div>
+
+          <div class="portal-holo__actions">
+            <button class="btn btn--primary" onclick="warpToStage('stage-horizontal')">
+              Glisser vers l'Agenda ↔
+            </button>
+            <button class="btn btn--outline" onclick="warpToStage('stage-orbital')">
+              Explorer la Boussole « Je veux… » ↻
+            </button>
+            <button class="btn btn--outline" onclick="openPathwayModal('premiere-fois')">
+              Première visite ?
+            </button>
+          </div>
+        </aside>
+
+        <div class="scroll-cue-badge" id="portalScrollCue">
+          <span>🖱️ Scrollez verticalement : le portail s'ouvre latéralement et plonge en 3D</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         CHAPITRE 02 : TRAVELLING HORIZONTAL (SCROLL VERTICAL = RAIL HORIZONTAL X)
+         ====================================================================== -->
+    <section class="spatial-stage spatial-stage--horizontal" id="stage-horizontal">
+      <div class="spatial-viewport" id="horaires-section">
+        <div class="axis-indicator">
+          <span class="axis-indicator__dot"></span>
+          <span>Chapitre 02 • Scroll Vertical → Travelling Caméra Horizontal (Axe X)</span>
+        </div>
+
+        <!-- Texte géant en arrière-plan qui défile à contre-courant -->
+        <div class="horizontal-bg-marquee" id="horizontalBgMarquee">
+          MERCREDI 18H30 • MESSE DES ÉTUDIANTS • LOUVAIN-LA-NEUVE • SAINT-FRANÇOIS •
+        </div>
+
+        <!-- Chariot caméra qui se déplace horizontalement de droite à gauche -->
+        <div class="horizontal-camera-rig" id="horizontalCameraRig">
+
+          <!-- Panneau 1 : Introduction & Horaires permanents -->
+          <div class="h-panel h-panel--intro">
+            <span class="h-panel__eyebrow">Travelling Temporel →</span>
+            <h2 class="h-panel__title">La semaine en <em>mouvement</em></h2>
+            <p style="color:var(--text-silver); font-size:0.94rem;">
+              Continue de scroller : la caméra glisse latéralement le long des rendez-vous réguliers et des prochains événements du campus.
+            </p>
+
+            <div class="h-horaires-cards">
+              <div class="h-horaire-mini">
+                <strong>Messes Étudiantes</strong>
+                <span>Mer 18h30 (St-François) • Dim 20h (Dominicains)</span>
+              </div>
+              <div class="h-horaire-mini">
+                <strong>Messes Paroissiales</strong>
+                <span>Lun–Ven 18h30 • Dim 9h &amp; 10h30 (St-François)</span>
+              </div>
+              <div class="h-horaire-mini">
+                <strong>Adoration &amp; Confessions</strong>
+                <span>Lun–Ven 18h00 (St-François) &amp; sur RDV</span>
+              </div>
+            </div>
+
+            <div style="margin-top:1.25rem; display:flex; gap:0.65rem; flex-wrap:wrap;">
+              <button class="btn btn--outline" onclick="switchView('agenda')">
+                Vue Agenda classique ↗
+              </button>
+              <button class="btn btn--outline" onclick="openComkotStudio(); switchStudioTab('weekly')">
+                ⚡ Modifier (ComKot)
+              </button>
+            </div>
+          </div>
+
+          <!-- Panneau 2 : Les créneaux de la semaine (#homeWeeklyGrid) -->
+          <div class="h-panel">
+            <div style="margin-bottom:0.85rem; display:flex; align-items:center; justify-content:space-between;">
+              <span class="h-panel__eyebrow" style="margin:0;">02A • Agenda de la Semaine</span>
+              <span style="font-size:0.75rem; color:var(--text-silver);">Défilement latéral automatique →</span>
+            </div>
+            <div class="h-weekly-rail" id="homeWeeklyGrid"></div>
+          </div>
+
+          <!-- Panneau 3 : Les prochains événements (#homeEventsGrid) -->
+          <div class="h-panel">
+            <div style="margin-bottom:0.85rem; display:flex; align-items:center; justify-content:space-between;">
+              <span class="h-panel__eyebrow" style="margin:0;">02B • Prochains Événements &amp; Temps Forts</span>
+              <button class="btn btn--primary" style="padding:0.35rem 0.9rem; font-size:0.75rem;" onclick="openComkotStudio(); switchStudioTab('events')">
+                + Ajouter un événement
+              </button>
+            </div>
+            <div class="h-events-rail" id="homeEventsGrid"></div>
+          </div>
+
+        </div>
+
+        <!-- Jauge de progression du travelling horizontal -->
+        <div class="horizontal-progress-rail">
+          <div class="horizontal-progress-fill" id="horizontalProgressFill"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         CHAPITRE 03 : BOUSSOLE ORBITALE 360° ("JE VEUX...")
+         ====================================================================== -->
+    <section class="spatial-stage spatial-stage--orbital" id="stage-orbital">
+      <div class="spatial-viewport">
+        <div class="axis-indicator">
+          <span class="axis-indicator__dot"></span>
+          <span>Chapitre 03 • Scroll Vertical → Rotation Orbitale 360° (Boussole des Parcours)</span>
+        </div>
+
+        <div class="orbital-layout">
+          <!-- Gauche : Grande roue orbitale qui tourne avec le scroll -->
+          <div class="orbital-wheel-stage">
+            <div class="orbital-compass-ring" id="orbitalCompassRing">
+              <button class="orbital-node active" data-orb-idx="0" onclick="openPathwayModal('premiere-fois')" title="Première fois">👋</button>
+              <button class="orbital-node" data-orb-idx="1" onclick="openPathwayModal('sacrements')" title="Baptême &amp; Confirmation">🕊️</button>
+              <button class="orbital-node" data-orb-idx="2" onclick="openPathwayModal('chorale')" title="Chorale &amp; Musique">🎸</button>
+              <button class="orbital-node" data-orb-idx="3" onclick="openPathwayModal('trouver-kot')" title="Kots Chrétiens">🏠</button>
+              <button class="orbital-node" data-orb-idx="4" onclick="openPathwayModal('ecoute-confession')" title="Écoute &amp; Confession">💬</button>
+              <button class="orbital-node" data-orb-idx="5" onclick="openPathwayModal('solidarite')" title="Solidarité">🤝</button>
+            </div>
+
+            <div class="orbital-center-hub">
+              <span id="orbitalActiveStep">PARCOURS 01 / 06</span>
+              <strong id="orbitalActiveTitle">Je veux…</strong>
+            </div>
+          </div>
+
+          <!-- Droite : Les 6 cartes "Je veux..." mises en orbite au fur et à mesure du scroll -->
+          <div class="orbital-cards-column">
+            <div style="margin-bottom:1.25rem;">
+              <span class="h-panel__eyebrow">Boussole Interactive • Cliquez sur une carte pour ouvrir</span>
+              <h2 class="h-panel__title" style="font-size:clamp(1.8rem, 3.2vw, 2.7rem); margin-bottom:0.35rem;">
+                Que cherches-tu sur le <em>campus</em> ?
+              </h2>
+              <p style="color:var(--text-silver); font-size:0.88rem;">
+                Le scroll fait tourner la boussole à gauche et met en lumière chaque porte d'entrée de la Pastorale.
+              </p>
+            </div>
+
+            <div class="orbital-cards-deck" id="pathwaysGrid"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         CHAPITRE 04 : DOUBLE PELLICULE CINÉMA EN CONTRE-SENS (PHOTOS)
+         ====================================================================== -->
+    <section class="spatial-stage spatial-stage--filmstrip" id="stage-filmstrip">
+      <div class="spatial-viewport">
+        <div class="axis-indicator">
+          <span class="axis-indicator__dot"></span>
+          <span>Chapitre 04 • Scroll Vertical → Double Flux Cinéma en Sens Opposés (⇄)</span>
+        </div>
+
+        <div class="filmstrip-stage-wrap">
+          <div class="filmstrip-header-overlay">
+            <div>
+              <span class="h-panel__eyebrow">Souvenirs &amp; Fraternité</span>
+              <h2 class="h-panel__title" style="margin-bottom:0;">Double pellicule <em>@pastoralelln</em></h2>
+            </div>
+            <div style="display:flex; gap:0.65rem; flex-wrap:wrap;">
+              <button class="btn btn--outline" onclick="switchView('photos')">
+                Explorer tous les albums →
+              </button>
+              <button class="btn btn--primary" onclick="openComkotStudio(); switchStudioTab('photos')">
+                📸 Ajouter des photos (ComKot)
+              </button>
+            </div>
+          </div>
+
+          <!-- Ruban 1 : Glisse de Droite vers la Gauche -->
+          <div class="filmstrip-track" id="homePhotosGrid"></div>
+
+          <!-- Ruban 2 : Glisse de Gauche vers la Droite (Contre-Sens) -->
+          <div class="filmstrip-track" id="filmstripReverseTrack"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         CHAPITRE 05 : DECK 3D EN ÉVENTAIL DES 11 KOTS & RÉSIDENCES
+         ====================================================================== -->
+    <section class="spatial-stage spatial-stage--kotsdeck" id="stage-kotsdeck">
+      <div class="spatial-viewport">
+        <div class="axis-indicator">
+          <span class="axis-indicator__dot"></span>
+          <span>Chapitre 05 • Scroll Vertical → Éventail Cylindrique 3D des 11 Kots (Rotation Y)</span>
+        </div>
+
+        <div class="kotsdeck-wrapper">
+          <div class="kotsdeck-header">
+            <div>
+              <span class="h-panel__eyebrow">Vie Communautaire sur le Campus</span>
+              <h2 class="h-panel__title" style="margin-bottom:0.2rem;">Les Kots &amp; <em>Résidences</em> en 3D</h2>
+              <p style="color:var(--text-silver); font-size:0.9rem;">
+                Chaque carte pivote dans l'espace 3D lorsqu'elle traverse le centre de l'écran.
+              </p>
+            </div>
+            <div style="display:flex; gap:0.65rem; flex-wrap:wrap;">
+              <button class="btn btn--outline" onclick="switchView('kots')">
+                Ouvrir l'annuaire filtrable des 11 Kots →
+              </button>
+            </div>
+          </div>
+
+          <!-- Rail 3D des Kots (#homeKotsGrid) -->
+          <div class="kots-3d-rail" id="homeKotsGrid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         CHAPITRE 06 : LEVER DE RIDEAU FINAL (ÉQUIPE « LA PASTÈQUE » & INFOS)
+         ====================================================================== -->
+    <section class="finale-curtain-section" id="equipe-section">
+      <div class="container" id="equipe-contact-section">
+        <div class="section-header">
+          <div>
+            <span class="h-panel__eyebrow">Chapitre 06 • Accompagnement &amp; Ancrage</span>
+            <h2 class="h-panel__title" style="margin-bottom:0.4rem;">L'équipe <em>« La Pastèque »</em> &amp; le CPE</h2>
+            <p style="color:var(--text-silver); max-width:640px;">
+              Prêtres, animateurs pastoraux et étudiants du Conseil Pastoral Étudiant (reconnaissables à leur foulard rouge le mercredi soir) t'accueillent toute l'année.
+            </p>
+          </div>
+          <button class="btn btn--outline" onclick="openComkotStudio(); switchStudioTab('kots')">
+            Gérer l'équipe (ComKot)
+          </button>
+        </div>
+
+        <div class="team-members-grid" id="teamMembersGrid"></div>
+
+        <div class="finale-hub-card" id="contact-section">
+          <div>
+            <span class="h-panel__eyebrow">Au cœur du piétonnier</span>
+            <h3 class="h-panel__title" style="font-size:2.1rem; margin-bottom:0.65rem;">
+              Église Saint-François d'Assise
+            </h3>
+            <p style="color:var(--text-silver); margin-bottom:1.4rem; font-size:0.95rem;">
+              Avenue Jean-Libert Hennebel 30B, 1348 Louvain-la-Neuve (juste en face de l'hôtel Martin's Agora). Retrouve aussi toutes nos annonces sur Instagram <strong>@pastoralelln</strong> et sur l'application paroissiale <strong>OClocher</strong>.
+            </p>
+            <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+              <a href="https://www.instagram.com/pastoralelln/" target="_blank" rel="noopener" class="btn btn--primary">
+                📸 Instagram @pastoralelln
+              </a>
+              <a href="https://www.google.com/maps/search/?api=1&query=Eglise+Saint-Francois+d+Assise+Louvain-la-Neuve" target="_blank" rel="noopener" class="btn btn--outline">
+                📍 Google Maps ↗
+              </a>
+              <a href="https://www.paroissesaintfrancois.be/etudiants" target="_blank" rel="noopener" class="btn btn--outline">
+                ⛪ Paroisse Saint-François ↗
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <img src="assets/equipe-pasteque.png" alt="Équipe Pastorale Étudiante LLN" style="width:100%; height:240px; object-fit:cover; border-radius:var(--radius-md); border:1px solid var(--border-glass);" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       VUE 2 : AGENDA COMPLET (MODE GRILLE CLASSIQUE POUR CONSULTATION RAPIDE)
+       ======================================================================== -->
+  <section id="view-agenda" class="view-section">
+    <div class="subview-container">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="h-panel__eyebrow">Programme Hebdomadaire</span>
+            <h1 class="h-panel__title">L'Agenda de la <em>Semaine</em></h1>
+          </div>
+          <button class="btn btn--outline" onclick="openComkotStudio(); switchStudioTab('weekly')">
+            ⚡ Modifier l'agenda (ComKot)
+          </button>
+        </div>
+        <div class="weekly-grid" id="agendaWeeklyGrid" style="margin-bottom:4rem;"></div>
+
+        <div class="section-header">
+          <div>
+            <span class="h-panel__eyebrow">Calendrier</span>
+            <h2 class="h-panel__title">Tous les <em>Événements</em></h2>
+          </div>
+          <button class="btn btn--primary" onclick="openComkotStudio(); switchStudioTab('events')">
+            + Ajouter un événement
+          </button>
+        </div>
+        <div class="filter-bar" id="eventsFilterBar"></div>
+        <div class="events-grid" id="fullEventsGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       VUE 3 : GALERIE PHOTOS COMPLÈTE PAR ALBUMS
+       ======================================================================== -->
+  <section id="view-photos" class="view-section">
+    <div class="subview-container">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="h-panel__eyebrow">Albums &amp; Souvenirs</span>
+            <h1 class="h-panel__title">Galerie <em>Photos</em></h1>
+          </div>
+          <button class="btn btn--primary" onclick="openComkotStudio(); switchStudioTab('photos')">
+            📸 Publier des photos
+          </button>
+        </div>
+        <div class="albums-bar" id="albumsFilterBar"></div>
+        <div class="photos-masonry" id="fullPhotosGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       VUE 4 : ANNUAIRE DES 11 KOTS & RÉSIDENCES
+       ======================================================================== -->
+  <section id="view-kots" class="view-section">
+    <div class="subview-container">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="h-panel__eyebrow">Vie Communautaire</span>
+            <h1 class="h-panel__title">Les 11 Kots &amp; <em>Résidences</em></h1>
+          </div>
+          <button class="btn btn--outline" onclick="openComkotStudio(); switchStudioTab('kots')">
+            Éditer les Kots
+          </button>
+        </div>
+
+        <div class="kots-search-row">
+          <div class="search-input-wrap">
+            <span class="search-input-icon">🔍</span>
+            <input type="search" id="kotSearchInput" class="search-input" placeholder="Rechercher un kot..." />
+          </div>
+          <div class="filter-bar" id="kotsFilterBar" style="margin-bottom:0;"></div>
+        </div>
+
+        <div class="kots-grid" id="fullKotsGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       MODALES PARTAGÉES (PARCOURS, LIGHTBOX, STUDIO COMKOT)
+       ======================================================================== -->
+  <div class="modal-backdrop" id="pathwayModal" onclick="if(event.target===this) closeModal('pathwayModal')">
+    <div class="modal-box" role="dialog" aria-modal="true">
+      <button class="modal-close" onclick="closeModal('pathwayModal')" aria-label="Fermer">✕</button>
+      <div id="pathwayModalContent"></div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="lightboxModal" onclick="if(event.target===this) closeModal('lightboxModal')">
+    <div class="lightbox-box" role="dialog" aria-modal="true">
+      <button class="modal-close" style="top:-10px; right:0;" onclick="closeModal('lightboxModal')" aria-label="Fermer">✕</button>
+      <img id="lightboxImage" src="" alt="" class="lightbox-img" />
+      <div class="lightbox-bar">
+        <button class="btn btn--outline" onclick="stepLightbox(-1)">← Précédente</button>
+        <div style="text-align:center;">
+          <div id="lightboxAlbum" style="font-size:0.72rem; font-weight:700; color:var(--pasto-gold); text-transform:uppercase;"></div>
+          <div id="lightboxCaption" style="font-size:0.92rem;"></div>
+          <div id="lightboxCounter" style="font-size:0.72rem; color:var(--text-silver);"></div>
+        </div>
+        <button class="btn btn--outline" onclick="stepLightbox(1)">Suivante →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="comkotModal" onclick="if(event.target===this) closeModal('comkotModal')">
+    <div class="modal-box modal-box--wide" role="dialog" aria-modal="true">
+      <button class="modal-close" onclick="closeModal('comkotModal')" aria-label="Fermer">✕</button>
+
+      <div class="studio-header">
+        <div style="display:flex; align-items:center; gap:0.75rem;">
+          <img src="assets/logo-ig.jpg" alt="" style="width:36px; height:36px; border-radius:50%;" />
+          <div>
+            <h2 style="font-size:1.1rem; font-weight:800;">Espace ComKot — Studio</h2>
+            <p style="font-size:0.78rem; color:var(--text-silver);">Synchronisé en direct avec les 3 versions (Colorée, Épurée &amp; Spatiale 3D)</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="studioLockScreen" style="padding: 3rem 2rem; text-align: center;">
+        <div style="max-width: 360px; margin: 0 auto;">
+          <h3 style="font-family: var(--font-serif); font-size: 1.6rem; margin-bottom: 0.4rem;">Accès ComKot</h3>
+          <p style="font-size: 0.85rem; color: var(--text-silver); margin-bottom: 1.2rem;">
+            Code par défaut : <code>pasto1348</code>
+          </p>
+          <form onsubmit="unlockComkotStudio(event)" style="display:flex; gap:0.5rem;">
+            <input type="password" id="comkotPinInput" class="form-input" style="flex:1;" placeholder="Code d'accès..." required />
+            <button type="submit" class="btn btn--primary">Déverrouiller</button>
+          </form>
+        </div>
+      </div>
+
+      <div id="studioMainScreen" style="display: none;">
+        <div class="studio-tabs">
+          <button class="studio-tab active" data-studio-tab="weekly" onclick="switchStudioTab('weekly')">1. Messe &amp; Semaine</button>
+          <button class="studio-tab" data-studio-tab="events" onclick="switchStudioTab('events')">2. Événements</button>
+          <button class="studio-tab" data-studio-tab="photos" onclick="switchStudioTab('photos')">3. Photos</button>
+          <button class="studio-tab" data-studio-tab="kots" onclick="switchStudioTab('kots')">4. Kots &amp; Équipe</button>
+          <button class="studio-tab" data-studio-tab="cloud" onclick="switchStudioTab('cloud')">5. Cloud &amp; Export</button>
+        </div>
+
+        <div class="studio-body">
+          <div class="studio-panel active" id="studio-panel-weekly">
+            <form onsubmit="saveSpotlightAndWeekly(event)">
+              <div class="form-grid" style="margin-bottom: 1.5rem;">
+                <div class="form-group">
+                  <label class="form-label">Kot préparant la Messe du mercredi</label>
+                  <input type="text" id="adminWedKot" class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Horaire Messe du mercredi</label>
+                  <input type="text" id="adminWedTime" class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Sous-titre Messe</label>
+                  <input type="text" id="adminWedTheme" class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Lieu Messe</label>
+                  <input type="text" id="adminWedLocation" class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Badge bannière</label>
+                  <input type="text" id="adminBannerPill" class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Texte bannière</label>
+                  <input type="text" id="adminBannerText" class="form-input" />
+                </div>
+              </div>
+
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+                <strong style="font-size:0.9rem;">Créneaux de la semaine</strong>
+                <button type="button" class="btn btn--outline" style="padding:0.35rem 0.75rem; font-size:0.75rem;" onclick="addWeeklyItem()">+ Ajouter un jour</button>
+              </div>
+              <div id="adminWeeklyList" style="margin-bottom:1.25rem;"></div>
+              <button type="submit" class="btn btn--primary">Enregistrer</button>
+            </form>
+          </div>
+
+          <div class="studio-panel" id="studio-panel-events">
+            <form id="addEventForm" onsubmit="addNewEvent(event)" style="margin-bottom:2rem; padding-bottom:1.5rem; border-bottom:1px solid var(--border-glass);">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label">Titre *</label>
+                  <input type="text" id="newEvtTitle" class="form-input" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Catégorie</label>
+                  <select id="newEvtCategory" class="form-select">
+                    <option value="Messe">Messe</option>
+                    <option value="Soirée & Foi">Soirée &amp; Foi</option>
+                    <option value="Solidarité">Solidarité</option>
+                    <option value="Retraite & Pélé">Retraite &amp; Pélé</option>
+                    <option value="Vie des Kots">Vie des Kots</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Date</label>
+                  <input type="date" id="newEvtDate" class="form-input" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Horaire</label>
+                  <input type="text" id="newEvtTime" class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Lieu</label>
+                  <input type="text" id="newEvtLocation" class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Lien</label>
+                  <input type="url" id="newEvtLink" class="form-input" />
+                </div>
+                <div class="form-group form-group--full">
+                  <label class="form-label">Description</label>
+                  <textarea id="newEvtDesc" class="form-textarea" rows="2"></textarea>
+                </div>
+                <div class="form-group form-group--full">
+                  <label class="form-label">Image (compression auto)</label>
+                  <input type="file" accept="image/*" onchange="handleEventImageSelect(this)" class="form-input" />
+                  <img id="adminEventImgPreview" src="" alt="" style="display:none; width:120px; height:80px; object-fit:cover; border-radius:6px; margin-top:0.4rem;" />
+                </div>
+              </div>
+              <button type="submit" class="btn btn--primary" style="margin-top:1rem;">Publier l'événement</button>
+            </form>
+            <div id="adminEventsList"></div>
+          </div>
+
+          <div class="studio-panel" id="studio-panel-photos">
+            <form id="addPhotosForm" onsubmit="publishGalleryPhotos(event)" style="margin-bottom:2rem; padding-bottom:1.5rem; border-bottom:1px solid var(--border-glass);">
+              <div class="form-grid" style="margin-bottom:1rem;">
+                <div class="form-group">
+                  <label class="form-label">Album *</label>
+                  <input type="text" id="newPhotoAlbum" list="existingAlbumsList" class="form-input" placeholder="Messe des Étudiants..." required />
+                  <datalist id="existingAlbumsList"></datalist>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Période</label>
+                  <input type="text" id="newPhotoDate" class="form-input" placeholder="Octobre 2026" />
+                </div>
+                <div class="form-group form-group--full">
+                  <label class="form-label">Légende</label>
+                  <input type="text" id="newPhotoCaption" class="form-input" />
+                </div>
+              </div>
+              <label class="dropzone" style="display:block; margin-bottom:1rem;">
+                <input type="file" accept="image/*" multiple onchange="handleGalleryFilesSelect(this)" style="display:none;" />
+                <strong id="galleryUploadStatus" style="color:var(--pasto-gold);">Sélectionner une ou plusieurs photos (compression WebP automatique)</strong>
+              </label>
+              <button type="submit" class="btn btn--primary">Publier les photos</button>
+            </form>
+            <div id="adminPhotosList"></div>
+          </div>
+
+          <div class="studio-panel" id="studio-panel-kots">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+              <div>
+                <h4 style="margin-bottom:0.6rem;">Ajouter un Kot</h4>
+                <form id="addKotForm" onsubmit="addNewKot(event)" style="display:flex; flex-direction:column; gap:0.5rem; margin-bottom:1rem;">
+                  <input type="text" id="newKotName" class="form-input" placeholder="Nom *" required />
+                  <input type="text" id="newKotType" class="form-input" placeholder="Type" />
+                  <input type="text" id="newKotIcon" class="form-input" placeholder="Icône (🏠)" />
+                  <input type="text" id="newKotContact" class="form-input" placeholder="Contact" />
+                  <input type="text" id="newKotTags" class="form-input" placeholder="Tags (séparés par virgule)" />
+                  <textarea id="newKotDesc" class="form-textarea" rows="2" placeholder="Description"></textarea>
+                  <button type="submit" class="btn btn--primary">+ Ajouter</button>
+                </form>
+                <div id="adminKotsList"></div>
+              </div>
+              <div>
+                <h4 style="margin-bottom:0.6rem;">Ajouter un membre Équipe</h4>
+                <form id="addTeamForm" onsubmit="addNewTeamMember(event)" style="display:flex; flex-direction:column; gap:0.5rem; margin-bottom:1rem;">
+                  <input type="text" id="newTeamName" class="form-input" placeholder="Nom *" required />
+                  <input type="text" id="newTeamRole" class="form-input" placeholder="Rôle" />
+                  <input type="text" id="newTeamDetail" class="form-input" placeholder="Détail" />
+                  <button type="submit" class="btn btn--primary">+ Ajouter</button>
+                </form>
+                <div id="adminTeamList"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="studio-panel" id="studio-panel-cloud">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+              <form onsubmit="saveSupabaseConfigForm(event)" style="display:flex; flex-direction:column; gap:0.65rem;">
+                <h4>Synchronisation Supabase</h4>
+                <input type="url" id="adminSupaUrl" class="form-input" placeholder="https://xxxx.supabase.co" />
+                <input type="text" id="adminSupaKey" class="form-input" placeholder="Supabase Anon Key" />
+                <button type="submit" class="btn btn--primary">Enregistrer Supabase</button>
+              </form>
+              <div style="display:flex; flex-direction:column; gap:0.65rem;">
+                <h4>Sauvegarde fichier</h4>
+                <button type="button" class="btn btn--outline" onclick="exportDataJsFile()">Télécharger data.js</button>
+                <button type="button" class="btn btn--outline" onclick="resetToDefaultData()">Réinitialiser par défaut</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastNotification" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- Données et logique partagées -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+
+  <!-- ========================================================================
+       MOTEUR SPATIAL 3D & MULTI-DIRECTIONNEL (SCROLLYTELLING ENGINE)
+       Transforme le défilement vertical en mouvements sur les axes Z, X, 360° & 3D
+       ======================================================================== -->
+  <script>
+    (function () {
+      "use strict";
+
+      function clamp(v, min, max) {
+        return Math.max(min, Math.min(max, v));
+      }
+
+      function getStageProgress(stageEl) {
+        if (!stageEl) return 0;
+        const rect = stageEl.getBoundingClientRect();
+        const scrollable = stageEl.offsetHeight - window.innerHeight;
+        if (scrollable <= 0) return 0;
+        return clamp(-rect.top / scrollable, 0, 1);
+      }
+
+      // Navigation fluide vers un chapitre spatial
+      window.warpToStage = function (stageId) {
+        if (typeof window.switchView === "function") {
+          window.switchView("accueil");
+        }
+        setTimeout(() => {
+          const el = document.getElementById(stageId);
+          if (!el) return;
+          // Pour le portail, aller à 85% du chapitre pour voir la carte Messe ouverte, sinon au début
+          const top = el.offsetTop + (stageId === "stage-portal" ? (el.offsetHeight - window.innerHeight) * 0.85 : 10);
+          window.scrollTo({ top: top, behavior: "smooth" });
+        }, 40);
+      };
+
+      // Dupliquer / enrichir le second ruban photo à contre-sens et les 11 Kots sur le rail 3D
+      function hydrateSpatialTracks() {
+        const homePhotos = document.getElementById("homePhotosGrid");
+        const reverseTrack = document.getElementById("filmstripReverseTrack");
+        if (homePhotos && reverseTrack && homePhotos.children.length > 0) {
+          // Doubler les éléments pour un ruban large et inverser l'ordre sur la 2e piste
+          const cardsHtml = Array.from(homePhotos.children).map((c) => c.outerHTML);
+          homePhotos.innerHTML = cardsHtml.concat(cardsHtml).join("");
+          reverseTrack.innerHTML = cardsHtml.slice().reverse().concat(cardsHtml.slice().reverse()).join("");
+        }
+
+        // Afficher les 11 Kots complets dans le Deck 3D (#homeKotsGrid) en copiant #fullKotsGrid
+        const fullKots = document.getElementById("fullKotsGrid");
+        const homeKots = document.getElementById("homeKotsGrid");
+        if (fullKots && homeKots && fullKots.children.length > homeKots.children.length) {
+          homeKots.innerHTML = fullKots.innerHTML;
+        }
+
+        // Positionner les 6 icônes sur le cercle de la boussole orbitale
+        positionCompassNodes(0);
+      }
+
+      function positionCompassNodes(rotationDeg) {
+        const ring = document.getElementById("orbitalCompassRing");
+        if (!ring) return;
+        const nodes = ring.querySelectorAll(".orbital-node");
+        const radius = ring.offsetWidth / 2;
+        nodes.forEach((node, idx) => {
+          const baseAngle = idx * 60 - 90; // Départ en haut (-90°)
+          const rad = (baseAngle * Math.PI) / 180;
+          const x = Math.cos(rad) * radius;
+          const y = Math.sin(rad) * radius;
+          // Contre-rotation de l'icône (-rotationDeg) pour qu'elle reste droite quand la roue tourne
+          node.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) rotate(${-rotationDeg.toFixed(1)}deg)`;
+        });
+      }
+
+      // Boucle principale d'animation spatiale (60fps)
+      let lastScrollY = window.scrollY;
+      let scrollVelocity = 0;
+
+      function updateSpatialScene() {
+        const accueilView = document.getElementById("view-accueil");
+        const hud = document.getElementById("spatialHud");
+        if (!accueilView || !accueilView.classList.contains("active")) {
+          if (hud) hud.style.display = "none";
+          requestAnimationFrame(updateSpatialScene);
+          return;
+        }
+        if (hud) hud.style.display = "flex";
+
+        const currentY = window.scrollY;
+        const rawDelta = currentY - lastScrollY;
+        scrollVelocity = scrollVelocity * 0.82 + rawDelta * 0.18;
+        lastScrollY = currentY;
+
+        let activeStageId = "stage-portal";
+        let activeMotionLabel = "AXE Z : ZOOM 3D";
+
+        /* --------------------------------------------------------------------
+           CHAPITRE 01 : PORTAIL 3D (Zoom Z + Rideaux Latéraux X)
+           -------------------------------------------------------------------- */
+        const stagePortal = document.getElementById("stage-portal");
+        if (stagePortal) {
+          const p = getStageProgress(stagePortal);
+          const shutterL = document.getElementById("portalShutterLeft");
+          const shutterR = document.getElementById("portalShutterRight");
+          const archFrame = document.getElementById("portalArchFrame");
+          const archImg = document.getElementById("portalArchImg");
+          const holo = document.getElementById("portalSpotlightHolo");
+          const cue = document.getElementById("portalScrollCue");
+
+          // Les deux volets s'ouvrent horizontalement vers la gauche et la droite
+          const slideX = clamp(p * 1.45, 0, 1) * 112;
+          const shutterOpacity = clamp(1 - p * 1.6, 0, 1);
+          if (shutterL) {
+            shutterL.style.transform = `translate3d(${-slideX}%, 0, 0)`;
+            shutterL.style.opacity = shutterOpacity;
+          }
+          if (shutterR) {
+            shutterR.style.transform = `translate3d(${slideX}%, 0, 0)`;
+            shutterR.style.opacity = shutterOpacity;
+          }
+
+          // L'arche zoome vers l'avant (Axe Z) et s'ouvre
+          if (archFrame) {
+            const scale = 0.62 + p * 0.46;
+            const archTopRadius = Math.round(280 * (1 - p * 0.88));
+            archFrame.style.transform = `scale3d(${scale.toFixed(3)}, ${scale.toFixed(3)}, 1)`;
+            archFrame.style.borderRadius = `${archTopRadius}px ${archTopRadius}px 28px 28px`;
+          }
+          if (archImg) {
+            const imgScale = 1.22 - p * 0.2;
+            archImg.style.transform = `scale(${imgScale.toFixed(3)})`;
+          }
+
+          // La carte holographique Messe du Mercredi émerge en 3D
+          if (holo) {
+            const holoP = clamp((p - 0.18) / 0.62, 0, 1);
+            const z = -260 * (1 - holoP);
+            const y = 70 * (1 - holoP);
+            const rotX = 20 * (1 - holoP);
+            holo.style.opacity = holoP.toFixed(3);
+            holo.style.transform = `translate3d(0, ${y.toFixed(1)}px, ${z.toFixed(1)}px) rotateX(${rotX.toFixed(1)}deg)`;
+          }
+          if (cue) {
+            cue.style.opacity = clamp(1 - p * 3, 0, 1);
+          }
+        }
+
+        /* --------------------------------------------------------------------
+           CHAPITRE 02 : TRAVELLING HORIZONTAL (Scroll Vertical -> Rail X)
+           -------------------------------------------------------------------- */
+        const stageHoriz = document.getElementById("stage-horizontal");
+        if (stageHoriz) {
+          const rect = stageHoriz.getBoundingClientRect();
+          if (rect.top <= window.innerHeight * 0.35) {
+            activeStageId = "stage-horizontal";
+            activeMotionLabel = "AXE X : TRAVELLING ↔";
+          }
+          const p = getStageProgress(stageHoriz);
+          const rig = document.getElementById("horizontalCameraRig");
+          const marquee = document.getElementById("horizontalBgMarquee");
+          const fill = document.getElementById("horizontalProgressFill");
+
+          if (rig) {
+            const maxPan = Math.max(0, rig.scrollWidth - window.innerWidth + 80);
+            const tx = -p * maxPan;
+            const skew = clamp(scrollVelocity * -0.08, -3.5, 3.5);
+            rig.style.transform = `translate3d(${tx.toFixed(1)}px, 0, 0) skewX(${skew.toFixed(2)}deg)`;
+          }
+          if (marquee) {
+            const mx = -400 + p * 650;
+            marquee.style.transform = `translate3d(${mx.toFixed(1)}px, 0, 0)`;
+          }
+          if (fill) {
+            fill.style.width = `${(p * 100).toFixed(1)}%`;
+          }
+        }
+
+        /* --------------------------------------------------------------------
+           CHAPITRE 03 : BOUSSOLE ORBITALE 360° ("JE VEUX...")
+           -------------------------------------------------------------------- */
+        const stageOrbital = document.getElementById("stage-orbital");
+        if (stageOrbital) {
+          const rect = stageOrbital.getBoundingClientRect();
+          if (rect.top <= window.innerHeight * 0.35) {
+            activeStageId = "stage-orbital";
+            activeMotionLabel = "ORBITE : ROTATION 360° ↻";
+          }
+          const p = getStageProgress(stageOrbital);
+          const ring = document.getElementById("orbitalCompassRing");
+          const rotDeg = p * 300; // Rotation sur les 6 postes (5 * 60° = 300°)
+          if (ring) {
+            ring.style.transform = `rotate(${rotDeg.toFixed(1)}deg)`;
+            positionCompassNodes(rotDeg);
+          }
+
+          const activeIdx = clamp(Math.round(p * 5), 0, 5);
+          const nodes = document.querySelectorAll(".orbital-node");
+          nodes.forEach((n, idx) => n.classList.toggle("active", idx === activeIdx));
+
+          const cards = document.querySelectorAll("#pathwaysGrid .pathway-card");
+          cards.forEach((c, idx) => {
+            c.classList.toggle("orbital-active", idx === activeIdx);
+          });
+
+          const stepEl = document.getElementById("orbitalActiveStep");
+          const titleEl = document.getElementById("orbitalActiveTitle");
+          const titles = [
+            "Première visite",
+            "Sacrements",
+            "Chorale 17h30",
+            "Les 11 Kots",
+            "Écoute & Prêtre",
+            "Solidarité"
+          ];
+          if (stepEl) stepEl.textContent = `PARCOURS 0${activeIdx + 1} / 06`;
+          if (titleEl) titleEl.textContent = titles[activeIdx] || "Je veux…";
+        }
+
+        /* --------------------------------------------------------------------
+           CHAPITRE 04 : DOUBLE PELLICULE CINÉMA EN CONTRE-SENS
+           -------------------------------------------------------------------- */
+        const stageFilm = document.getElementById("stage-filmstrip");
+        if (stageFilm) {
+          const rect = stageFilm.getBoundingClientRect();
+          if (rect.top <= window.innerHeight * 0.35) {
+            activeStageId = "stage-filmstrip";
+            activeMotionLabel = "CONTRE-SENS : DOUBLE FLUX ⇄";
+          }
+          const p = getStageProgress(stageFilm);
+          const trackTop = document.getElementById("homePhotosGrid");
+          const trackBot = document.getElementById("filmstripReverseTrack");
+
+          if (trackTop) {
+            const maxShift = Math.max(200, trackTop.scrollWidth - window.innerWidth);
+            const xTop = -p * maxShift * 0.75;
+            trackTop.style.transform = `translate3d(${xTop.toFixed(1)}px, 0, 0)`;
+          }
+          if (trackBot) {
+            const maxShift = Math.max(200, trackBot.scrollWidth - window.innerWidth);
+            const xBot = -maxShift * 0.75 + p * maxShift * 0.75;
+            trackBot.style.transform = `translate3d(${xBot.toFixed(1)}px, 0, 0)`;
+          }
+        }
+
+        /* --------------------------------------------------------------------
+           CHAPITRE 05 : DECK 3D EN ÉVENTAIL DES 11 KOTS
+           -------------------------------------------------------------------- */
+        const stageKots = document.getElementById("stage-kotsdeck");
+        if (stageKots) {
+          const rect = stageKots.getBoundingClientRect();
+          if (rect.top <= window.innerHeight * 0.35) {
+            activeStageId = "stage-kotsdeck";
+            activeMotionLabel = "ARC 3D : ÉVENTAIL KOTS 🎴";
+          }
+          const p = getStageProgress(stageKots);
+          const rail = document.getElementById("homeKotsGrid");
+          if (rail) {
+            const maxPan = Math.max(0, rail.scrollWidth - window.innerWidth + 100);
+            const tx = -p * maxPan;
+            rail.style.transform = `translate3d(${tx.toFixed(1)}px, 0, 0)`;
+
+            // Effet cylindrique 3D individuel sur chaque carte selon sa position à l'écran
+            const viewportCenter = window.innerWidth / 2;
+            const kotCards = rail.querySelectorAll(".kot-card");
+            kotCards.forEach((card) => {
+              const cRect = card.getBoundingClientRect();
+              const cardCenter = cRect.left + cRect.width / 2;
+              const normDist = clamp((cardCenter - viewportCenter) / (window.innerWidth * 0.55), -1.2, 1.2);
+              const rotY = normDist * -26;
+              const tz = (1 - Math.abs(normDist)) * 45;
+              const ty = Math.abs(normDist) * 24;
+              card.style.transform = `translate3d(0, ${ty.toFixed(1)}px, ${tz.toFixed(1)}px) rotateY(${rotY.toFixed(1)}deg)`;
+            });
+          }
+        }
+
+        /* --------------------------------------------------------------------
+           CHAPITRE 06 : LEVER DE RIDEAU FINAL (ÉQUIPE)
+           -------------------------------------------------------------------- */
+        const stageTeam = document.getElementById("equipe-section");
+        if (stageTeam) {
+          const rect = stageTeam.getBoundingClientRect();
+          if (rect.top <= window.innerHeight * 0.5) {
+            activeStageId = "equipe-section";
+            activeMotionLabel = "RIDEAU FINAL : L'ÉQUIPE ↑";
+          }
+        }
+
+        // Mise à jour du HUD en bas de l'écran
+        document.querySelectorAll(".hud-step").forEach((btn) => {
+          btn.classList.toggle("active", btn.getAttribute("data-stage") === activeStageId);
+        });
+        const badge = document.getElementById("hudMotionMode");
+        if (badge) badge.textContent = activeMotionLabel;
+
+        requestAnimationFrame(updateSpatialScene);
+      }
+
+      window.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+          hydrateSpatialTracks();
+          requestAnimationFrame(updateSpatialScene);
+        }, 80);
+      });
+
+      window.addEventListener("resize", () => {
+        positionCompassNodes(0);
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" role="img" aria-label="Logo Pastorale Étudiante de Louvain-la-Neuve">
+  <defs>
+    <clipPath id="innerCircleClip">
+      <circle cx="120" cy="120" r="108" />
+    </clipPath>
+  </defs>
+  <!-- Outer border ring -->
+  <circle cx="120" cy="120" r="118" fill="#C72636" />
+  <!-- Main crimson circle -->
+  <circle cx="120" cy="120" r="108" fill="#D61C31" />
+
+  <!-- Clipped 45-degree bottom-left long shadow (#940531) + White Saint-François Bell Tower & Cross -->
+  <g clip-path="url(#innerCircleClip)">
+    <!-- Long shadow cast from the cross and U-shaped tower towards bottom-left (-45 deg) -->
+    <polygon fill="#940531" points="
+      128,46 135,53 124,64 124,80 116,80
+      40,156 10,186 10,240 94,240
+      166,168 175,145 175,68
+      153,90 153,138 128,163
+      87,138 87,68 65,90
+    " />
+    <path fill="#940531" d="M116,46 L30,132 L30,240 L108,240 L163,185 L146,168 L74,168 L65,135 L65,68 Z" />
+
+    <!-- White Cross above the gap -->
+    <path fill="#FEFEFE" d="
+      M116.5,41
+      C116.5,39 123.5,39 123.5,41
+      L123.5,51.5
+      L133,51.5
+      C135,51.5 135,58.5 133,58.5
+      L123.5,58.5
+      L123.5,79
+      C123.5,81 116.5,81 116.5,79
+      L116.5,58.5
+      L107,58.5
+      C105,58.5 105,51.5 107,51.5
+      L116.5,51.5
+      Z
+    " />
+
+    <!-- White U-shaped Saint-François Bell Tower silhouette -->
+    <path fill="#FEFEFE" d="
+      M65,90
+      L87,68
+      L87,134
+      C87,154 101,166 120,166
+      C139,166 153,154 153,134
+      L153,90
+      L175,68
+      L175,136
+      C175,169 151,188 120,188
+      C89,188 65,169 65,136
+      Z
+    " />
+  </g>
+</svg>

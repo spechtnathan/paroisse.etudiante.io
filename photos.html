@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galerie Photos — Pastorale Étudiante de Louvain-la-Neuve (@pastoralelln)</title>
+  <meta name="description" content="Albums photos de la Pastorale Étudiante de Louvain-la-Neuve : Messes des Étudiants du mercredi, chorale, 24h Vélo, Nuit des Sans-Abri et vie des kots." />
+  <link rel="icon" type="image/jpeg" href="assets/logo-ig.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Cormorant+Garamond:ital,wght@0,700;1,700&family=Montserrat:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ========================================================================
+       NAVIGATION MULTI-PAGES
+       ======================================================================== -->
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="accueil.html" class="brand" aria-label="Retour à l'accueil Pastorale Étudiante LLN">
+        <img src="assets/logo-ig.jpg" alt="Logo Pastorale Étudiante LLN" class="brand__logo" />
+        <div class="brand__text">
+          <span class="brand__title">PASTORALE ÉTUDIANTE</span>
+          <span class="brand__subtitle">Paroisse Étudiante • Louvain-la-Neuve</span>
+        </div>
+      </a>
+
+      <nav class="nav-links" id="navLinks" aria-label="Navigation principale">
+        <a href="accueil.html" class="nav-btn">
+          Accueil
+        </a>
+        <a href="agenda.html" class="nav-btn">
+          Agenda &amp; Horaires <span class="nav-btn__badge" id="navEventsCount">5</span>
+        </a>
+        <a href="photos.html" class="nav-btn active">
+          Photos <span class="nav-btn__badge" id="navPhotosCount">14</span>
+        </a>
+        <a href="kots.html" class="nav-btn">
+          Les Kots <span class="nav-btn__badge" id="navKotsCount">11</span>
+        </a>
+        <a href="equipe.html" class="nav-btn">
+          L'Équipe &amp; Infos
+        </a>
+      </nav>
+
+      <div class="navbar__actions">
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Menu">
+          ☰
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       CONTENU DE LA PAGE GALERIE PHOTOS & ALBUMS
+       ======================================================================== -->
+  <main id="view-photos" class="view-section active">
+
+    <!-- EN-TÊTE CHALEUREUX @PASTORALELLN -->
+    <section class="page-hero-banner page-hero-banner--warm">
+      <div class="container">
+        <div class="section-header" style="margin-bottom:0;">
+          <div>
+            <span class="eyebrow eyebrow--warm">📸 Albums Photos de la Pasto</span>
+            <h1 class="section-title section-title--light" style="color:#FFFFFF;">
+              La vie de la <span class="script-accent">Paroisse</span> en photos
+            </h1>
+            <p class="section-subtitle" style="color:rgba(255,255,255,0.92);">
+              Sélectionne un album ci-dessous pour revivre les messes des étudiants, la chorale, les 24h Vélo et les soirées fraternelles. Clique sur une photo pour l'afficher en grand !
+            </p>
+          </div>
+          <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+            <a href="https://www.instagram.com/pastoralelln/" target="_blank" rel="noopener" class="btn btn--warm">
+              Voir les Reels sur @pastoralelln →
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALERIE MASONRY & FILTRES PAR ALBUM -->
+    <section class="gallery-section" style="min-height: 65vh;">
+      <div class="container">
+        <div class="albums-bar" id="albumsFilterBar"></div>
+        <div class="photos-masonry" id="fullPhotosGrid"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       PIED DE PAGE MULTI-PAGES
+       ======================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div style="display:flex; align-items:center; gap:0.85rem; margin-bottom:1rem;">
+            <img src="assets/logo-ig.jpg" alt="Logo Pastorale Étudiante LLN" style="width:46px; height:46px; border-radius:50%;" />
+            <div>
+              <strong style="font-family:var(--font-display); font-size:1.05rem; color:#FFFFFF; display:block;">PASTORALE ÉTUDIANTE LLN</strong>
+              <span style="font-size:0.8rem; color:var(--pasto-yellow);">Paroisse Étudiante de Louvain-la-Neuve</span>
+            </div>
+          </div>
+          <p style="font-size:0.88rem; color:rgba(255,255,255,0.75); margin-bottom:1rem;">
+            Église Saint-François d'Assise<br/>
+            Avenue Jean-Libert Hennebel 30B, 1348 Louvain-la-Neuve (face au Martin's Agora).
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-col__title">Pages du site</h4>
+          <div class="footer-links">
+            <a href="accueil.html">Accueil</a>
+            <a href="agenda.html">Agenda &amp; Horaires</a>
+            <a href="photos.html">Galerie Photos</a>
+            <a href="kots.html">Les 11 Kots chrétiens</a>
+            <a href="equipe.html">L'Équipe &amp; Infos pratiques</a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-col__title">Rendez-vous</h4>
+          <div class="footer-links">
+            <span>⛪ Mercredi 18h30 : Messe Étudiants</span>
+            <span>🎬 Mardi 20h00 : Soirée Kot Carrefour</span>
+            <span>🕯️ Dimanche 20h00 : Messe Dominicains</span>
+            <span>🙏 Lun–Ven 18h00 : Adoration &amp; Confessions</span>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-col__title">Liens utiles</h4>
+          <div class="footer-links">
+            <a href="https://www.instagram.com/pastoralelln/" target="_blank" rel="noopener">📸 Instagram @pastoralelln</a>
+            <a href="https://www.paroissesaintfrancois.be/etudiants" target="_blank" rel="noopener">🌐 Paroisse Saint-François</a>
+            <a href="admin.html" style="color:var(--pasto-yellow); font-weight:700; margin-top:0.4rem;">Accès Admin</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© Paroisse Étudiante de Louvain-la-Neuve — Pastorale Étudiante LLN (@pastoralelln)</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       MODALES : LIGHTBOX PLEIN ÉCRAN & STUDIO COMKOT
+       ======================================================================== -->
+  <div class="modal-backdrop" id="lightboxModal" onclick="if(event.target===this) closeModal('lightboxModal')">
+    <div class="lightbox-box" role="dialog" aria-modal="true">
+      <button class="modal-close" style="top:-10px; right:0; background:#FFFFFF;" onclick="closeModal('lightboxModal')" aria-label="Fermer">✕</button>
+      <img id="lightboxImage" src="" alt="" class="lightbox-img" />
+      <div class="lightbox-bar">
+        <button class="btn btn--outline-light" style="padding:0.45rem 0.9rem;" onclick="stepLightbox(-1)">← Précédente</button>
+        <div style="text-align:center;">
+          <div id="lightboxAlbum" style="font-family:var(--font-display); font-size:0.75rem; font-weight:800; color:var(--pasto-yellow); text-transform:uppercase;"></div>
+          <div id="lightboxCaption" style="font-size:0.95rem; font-weight:600;"></div>
+          <div id="lightboxCounter" style="font-size:0.75rem; opacity:0.75;"></div>
+        </div>
+        <button class="btn btn--outline-light" style="padding:0.45rem 0.9rem;" onclick="stepLightbox(1)">Suivante →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastNotification" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accès Admin — Pastorale Étudiante de Louvain-la-Neuve (@pastoralelln)</title>
+  <meta name="description" content="Interface d'administration de la Pastorale Étudiante de Louvain-la-Neuve : gestion de la Messe du mercredi, de l'Agenda de la semaine, des événements, des photos et des kots." />
+  <link rel="icon" type="image/jpeg" href="assets/logo-ig.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Cormorant+Garamond:ital,wght@0,700;1,700&family=Montserrat:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .admin-page-wrap {
+      min-height: calc(100vh - var(--header-height));
+      padding: 3rem 0 5rem;
+      background: linear-gradient(180deg, var(--bg-cream) 0%, var(--bg-cream-alt) 100%);
+    }
+    .admin-card-shell {
+      background: var(--bg-white);
+      border-radius: var(--radius-lg);
+      border: 2px solid rgba(148, 5, 49, 0.14);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+    .admin-card-shell .studio-body {
+      max-height: none;
+      overflow-y: visible;
+      padding: 2rem;
+    }
+    .admin-lock-box {
+      max-width: 440px;
+      margin: 3.5rem auto;
+      background: var(--bg-white);
+      padding: 2.5rem 2rem;
+      border-radius: var(--radius-lg);
+      border: 2px solid rgba(214, 28, 49, 0.18);
+      box-shadow: -8px 8px 0px var(--pasto-burgundy);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================
+       NAVIGATION MULTI-PAGES
+       ======================================================================== -->
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="accueil.html" class="brand" aria-label="Retour à l'accueil Pastorale Étudiante LLN">
+        <img src="assets/logo-ig.jpg" alt="Logo Pastorale Étudiante LLN" class="brand__logo" />
+        <div class="brand__text">
+          <span class="brand__title">PASTORALE ÉTUDIANTE</span>
+          <span class="brand__subtitle">Paroisse Étudiante • Louvain-la-Neuve</span>
+        </div>
+      </a>
+
+      <nav class="nav-links" id="navLinks" aria-label="Navigation principale">
+        <a href="accueil.html" class="nav-btn">
+          Accueil
+        </a>
+        <a href="agenda.html" class="nav-btn">
+          Agenda &amp; Horaires <span class="nav-btn__badge" id="navEventsCount">5</span>
+        </a>
+        <a href="photos.html" class="nav-btn">
+          Photos <span class="nav-btn__badge" id="navPhotosCount">14</span>
+        </a>
+        <a href="kots.html" class="nav-btn">
+          Les Kots <span class="nav-btn__badge" id="navKotsCount">11</span>
+        </a>
+        <a href="equipe.html" class="nav-btn">
+          L'Équipe &amp; Infos
+        </a>
+      </nav>
+
+      <div class="navbar__actions">
+        <a href="accueil.html" class="btn btn--outline" style="padding: 0.5rem 1rem; font-size: 0.8rem;">
+          ← Retour au site
+        </a>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Menu">
+          ☰
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       PAGE DÉDIÉE : ACCÈS ADMIN (ESPACE COMKOT & CPE)
+       ======================================================================== -->
+  <main class="admin-page-wrap">
+    <div class="container">
+
+      <!-- ÉCRAN DE CONNEXION ADMIN -->
+      <div id="studioLockScreen">
+        <div class="admin-lock-box">
+          <img src="assets/logo-ig.jpg" alt="Logo Pastorale Étudiante LLN" style="width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 1rem; box-shadow: -3px 3px 0px var(--pasto-burgundy);" />
+          <span class="eyebrow">🔐 Administration du site</span>
+          <h1 style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 900; margin-bottom: 0.5rem;">
+            Accès Admin
+          </h1>
+          <p style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+            Entre le code d'accès pour gérer l'Agenda de la Semaine, ajouter des événements ou publier des photos (code par défaut : <code>1234</code>).
+          </p>
+          <form onsubmit="unlockComkotStudio(event)" style="display:flex; gap:0.6rem;">
+            <input type="password" id="comkotPinInput" class="form-input" placeholder="Code d'accès Admin..." required style="flex:1;" />
+            <button type="submit" class="btn btn--primary">Déverrouiller</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- TABLEAU DE BORD COMPLET UNE FOIS DÉVERROUILLÉ -->
+      <div id="studioMainScreen" style="display: none;">
+        <div class="admin-card-shell">
+
+          <div class="studio-header" style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
+            <div class="studio-header__title">
+              <img src="assets/logo-ig.jpg" alt="" style="width:44px; height:44px; border-radius:50%; border:2px solid #FFFFFF;" />
+              <div>
+                <h1 style="font-family:var(--font-display); font-size:1.25rem; font-weight:900;">TABLEAU DE BORD ADMIN — COMKOT &amp; CPE</h1>
+                <p style="font-size:0.84rem; opacity:0.9;">Toutes les modifications s'appliquent instantanément sur l'ensemble des pages du site</p>
+              </div>
+            </div>
+            <div style="display:flex; gap:0.65rem; flex-wrap:wrap;">
+              <a href="accueil.html" class="btn btn--warm" style="padding:0.45rem 1rem; font-size:0.8rem;">
+                👁️ Voir le site public
+              </a>
+              <button type="button" class="btn btn--outline-light" style="padding:0.45rem 1rem; font-size:0.8rem;" onclick="lockComkotStudio()">
+                🔒 Verrouiller
+              </button>
+            </div>
+          </div>
+
+          <div class="studio-tabs">
+            <button class="studio-tab active" data-studio-tab="weekly" onclick="switchStudioTab('weekly')">📌 1. Messe &amp; Semaine</button>
+            <button class="studio-tab" data-studio-tab="events" onclick="switchStudioTab('events')">🗓️ 2. Événements</button>
+            <button class="studio-tab" data-studio-tab="photos" onclick="switchStudioTab('photos')">📸 3. Photos &amp; Albums</button>
+            <button class="studio-tab" data-studio-tab="kots" onclick="switchStudioTab('kots')">🏠 4. Kots &amp; Équipe</button>
+            <!--<button class="studio-tab" data-studio-tab="cloud" onclick="switchStudioTab('cloud')">☁️ 5. Sauvegarde &amp; Cloud</button>-->
+          </div>
+
+          <div class="studio-body">
+
+            <!-- ONGLET 1 : MESSE DU MERCREDI & AGENDA DE LA SEMAINE -->
+            <div class="studio-panel active" id="studio-panel-weekly">
+              <form onsubmit="saveSpotlightAndWeekly(event)">
+                <h2 style="font-family:var(--font-display); font-size:1.1rem; font-weight:900; color:var(--pasto-red); margin-bottom:1rem;">
+                  ⛪ Focus Messe des Étudiants (Page d'Accueil)
+                </h2>
+                <div class="form-grid" style="margin-bottom: 2rem;">
+                  <div class="form-group">
+                    <label class="form-label">Kot qui prépare la Messe du mercredi</label>
+                    <input type="text" id="adminWedKot" class="form-input" required />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Horaire Messe du mercredi</label>
+                    <input type="text" id="adminWedTime" class="form-input" required />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Sous-titre / Thème de la messe</label>
+                    <input type="text" id="adminWedTheme" class="form-input" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Lieu de la messe</label>
+                    <input type="text" id="adminWedLocation" class="form-input" />
+                  </div>
+                  <input type="hidden" id="adminBannerPill" />
+                  <input type="hidden" id="adminBannerText" />
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.75rem;">
+                  <div>
+                    <h2 style="font-family:var(--font-display); font-size:1.1rem; font-weight:900; color:var(--pasto-red);">
+                      📌 Cartes « L'Agenda de la Semaine » (Page Agenda)
+                    </h2>
+                    <p style="font-size:0.85rem; color:var(--text-muted);">
+                      Modifie les rendez-vous réguliers de la semaine (Mardi Kot Carrefour, Mercredi Messe, Jeudi P.A.F., Dimanche Dominicains…).
+                    </p>
+                  </div>
+                  <button type="button" class="btn btn--outline" style="padding:0.45rem 0.95rem; font-size:0.8rem;" onclick="addWeeklyItem()">
+                    + Ajouter un créneau
+                  </button>
+                </div>
+
+                <div id="adminWeeklyList" style="margin-bottom: 1.5rem;"></div>
+
+                <button type="submit" class="btn btn--primary">
+                  💾 Enregistrer la Messe &amp; l'Agenda de la Semaine
+                </button>
+              </form>
+            </div>
+
+            <!-- ONGLET 2 : ÉVÉNEMENTS -->
+            <div class="studio-panel" id="studio-panel-events">
+              <form id="addEventForm" onsubmit="addNewEvent(event)" style="background: var(--bg-cream); padding: 1.5rem; border-radius: var(--radius-md); margin-bottom: 2rem;">
+                <h2 style="font-family:var(--font-display); font-size:1.1rem; font-weight:900; color:var(--pasto-red); margin-bottom:1rem;">
+                  🗓️ Publier un nouvel événement
+                </h2>
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label class="form-label">Titre de l'événement *</label>
+                    <input type="text" id="newEvtTitle" class="form-input" placeholder="Ex: Messe des Étudiants — Spéciale Rentrée" required />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Catégorie</label>
+                    <select id="newEvtCategory" class="form-select">
+                      <option value="Messe">Messe</option>
+                      <option value="Soirée & Foi">Soirée &amp; Foi</option>
+                      <option value="Solidarité">Solidarité</option>
+                      <option value="Retraite & Pélé">Retraite &amp; Pélé</option>
+                      <option value="Vie des Kots">Vie des Kots</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Date *</label>
+                    <input type="date" id="newEvtDate" class="form-input" required />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Horaire</label>
+                    <input type="text" id="newEvtTime" class="form-input" placeholder="Ex: 18h30" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Lieu</label>
+                    <input type="text" id="newEvtLocation" class="form-input" placeholder="Ex: Église Saint-François" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Lien externe (Instagram, inscription...)</label>
+                    <input type="url" id="newEvtLink" class="form-input" placeholder="https://..." />
+                  </div>
+                  <div class="form-group form-group--full">
+                    <label class="form-label">Description</label>
+                    <textarea id="newEvtDesc" class="form-textarea" rows="2" placeholder="Détails de l'événement..."></textarea>
+                  </div>
+                  <div class="form-group form-group--full">
+                    <label class="form-label">Affiche ou Photo</label>
+                    <input type="file" accept="image/*" onchange="handleEventImageSelect(this)" class="form-input" />
+                    <img id="adminEventImgPreview" src="" alt="" style="display:none; width:140px; height:95px; object-fit:cover; border-radius:8px; margin-top:0.5rem;" />
+                  </div>
+                </div>
+                <button type="submit" class="btn btn--primary" style="margin-top: 1.15rem;">
+                  ✨ Publier l'événement
+                </button>
+              </form>
+
+              <h3 style="font-family:var(--font-display); font-size:1rem; font-weight:900; margin-bottom:0.85rem;">
+                Événements publiés
+              </h3>
+              <div id="adminEventsList"></div>
+            </div>
+
+            <!-- ONGLET 3 : PHOTOS & ALBUMS -->
+            <div class="studio-panel" id="studio-panel-photos">
+              <form id="addPhotosForm" onsubmit="publishGalleryPhotos(event)" style="background: var(--bg-cream); padding: 1.5rem; border-radius: var(--radius-md); margin-bottom: 2rem;">
+                <h2 style="font-family:var(--font-display); font-size:1.1rem; font-weight:900; color:var(--pasto-red); margin-bottom:1rem;">
+                  📸 Ajouter des photos à la Galerie
+                </h2>
+                <div class="form-grid" style="margin-bottom: 1rem;">
+                  <div class="form-group">
+                    <label class="form-label">Nom de l'album *</label>
+                    <input type="text" id="newPhotoAlbum" list="existingAlbumsList" class="form-input" placeholder="Ex: Messe des Étudiants, 24h Vélo..." required />
+                    <datalist id="existingAlbumsList"></datalist>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Période / Date</label>
+                    <input type="text" id="newPhotoDate" class="form-input" placeholder="Ex: Novembre 2026" />
+                  </div>
+                  <div class="form-group form-group--full">
+                    <label class="form-label">Légende des photos</label>
+                    <input type="text" id="newPhotoCaption" class="form-input" placeholder="Courte description..." />
+                  </div>
+                </div>
+                <label class="dropzone" style="display:block; margin-bottom: 1rem;">
+                  <input type="file" accept="image/*" multiple onchange="handleGalleryFilesSelect(this)" style="display:none;" />
+                  <div id="galleryUploadStatus" style="font-weight:700; color:var(--pasto-red);">
+                    📤 Clique ici pour sélectionner une ou plusieurs photos
+                  </div>
+                </label>
+                <button type="submit" class="btn btn--primary">
+                  📤 Publier les photos dans la Galerie
+                </button>
+              </form>
+
+              <h3 style="font-family:var(--font-display); font-size:1rem; font-weight:900; margin-bottom:0.85rem;">
+                Photos dans la galerie
+              </h3>
+              <div id="adminPhotosList"></div>
+            </div>
+
+            <!-- ONGLET 4 : KOTS & ÉQUIPE -->
+            <div class="studio-panel" id="studio-panel-kots">
+              <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
+                <div>
+                  <h2 style="font-family: var(--font-display); font-size: 1.05rem; font-weight: 900; color: var(--pasto-red); margin-bottom: 0.85rem;">
+                    🏠 Ajouter un Kot ou une Résidence
+                  </h2>
+                  <form id="addKotForm" onsubmit="addNewKot(event)" style="background: var(--bg-cream); padding: 1.25rem; border-radius: var(--radius-md); margin-bottom: 1.25rem; display:flex; flex-direction:column; gap:0.65rem;">
+                    <input type="text" id="newKotName" class="form-input" placeholder="Nom du Kot *" required />
+                    <input type="text" id="newKotType" class="form-input" placeholder="Type (ex: Kot-à-projet, Résidence...)" />
+                    <input type="text" id="newKotIcon" class="form-input" placeholder="Emoji (🏠)" />
+                    <input type="text" id="newKotContact" class="form-input" placeholder="Contact (email, Instagram, adresse...)" />
+                    <input type="text" id="newKotTags" class="form-input" placeholder="Tags séparés par virgule" />
+                    <textarea id="newKotDesc" class="form-textarea" rows="2" placeholder="Description du projet..."></textarea>
+                    <button type="submit" class="btn btn--primary">+ Ajouter le Kot</button>
+                  </form>
+                  <div id="adminKotsList"></div>
+                </div>
+
+                <div>
+                  <h2 style="font-family: var(--font-display); font-size: 1.05rem; font-weight: 900; color: var(--pasto-red); margin-bottom: 0.85rem;">
+                    🧣 Ajouter un membre de l'Équipe
+                  </h2>
+                  <form id="addTeamForm" onsubmit="addNewTeamMember(event)" style="background: var(--bg-cream); padding: 1.25rem; border-radius: var(--radius-md); margin-bottom: 1.25rem; display:flex; flex-direction:column; gap:0.65rem;">
+                    <input type="text" id="newTeamName" class="form-input" placeholder="Prénom & Nom *" required />
+                    <input type="text" id="newTeamRole" class="form-input" placeholder="Rôle (ex: Prêtre, CPE, Animatrice...)" />
+                    <input type="text" id="newTeamDetail" class="form-input" placeholder="Détail / Contact" />
+                    <button type="submit" class="btn btn--primary">+ Ajouter le membre</button>
+                  </form>
+                  <div id="adminTeamList"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ONGLET 5 : SAUVEGARDE & CLOUD -->
+            <div class="studio-panel" id="studio-panel-cloud">
+              <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                <div style="background: var(--bg-cream); padding: 1.5rem; border-radius: var(--radius-md);">
+                  <h2 style="font-family: var(--font-display); font-size: 1.05rem; font-weight: 900; color: var(--pasto-red); margin-bottom: 0.5rem;">
+                    ☁️ Synchronisation Cloud Supabase
+                  </h2>
+                  <p style="font-size: 0.86rem; color: var(--text-muted); margin-bottom: 1rem;">
+                    Optionnel : connecte une base Supabase gratuite pour synchroniser instantanément les ajouts entre tous les ordinateurs et téléphones.
+                  </p>
+                  <form onsubmit="saveSupabaseConfigForm(event)" style="display:flex; flex-direction:column; gap:0.75rem;">
+                    <input type="url" id="adminSupaUrl" class="form-input" placeholder="https://xxxx.supabase.co" />
+                    <input type="text" id="adminSupaKey" class="form-input" placeholder="Supabase Anon Key" />
+                    <button type="submit" class="btn btn--primary">Enregistrer la configuration Cloud</button>
+                  </form>
+                </div>
+
+                <div style="background: var(--bg-cream); padding: 1.5rem; border-radius: var(--radius-md); display:flex; flex-direction:column; justify-content:space-between; gap:1rem;">
+                  <div>
+                    <h2 style="font-family: var(--font-display); font-size: 1.05rem; font-weight: 900; color: var(--pasto-red); margin-bottom: 0.5rem;">
+                      📦 Exporter le fichier <code>data.js</code>
+                    </h2>
+                    <p style="font-size: 0.86rem; color: var(--text-muted);">
+                      Télécharge le fichier <code>data.js</code> mis à jour avec tes nouvelles photos et événements pour le remplacer dans le dossier du site.
+                    </p>
+                  </div>
+                  <div style="display:flex; flex-direction:column; gap:0.75rem;">
+                    <button type="button" class="btn btn--primary" onclick="exportDataJsFile()">
+                      ⬇️ Télécharger data.js mis à jour
+                    </button>
+                    <button type="button" class="btn btn--outline" onclick="resetToDefaultData()">
+                      🔄 Réinitialiser les données par défaut
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ========================================================================
+       PIED DE PAGE MULTI-PAGES
+       ======================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div style="display:flex; align-items:center; gap:0.85rem; margin-bottom:1rem;">
+            <img src="assets/logo-ig.jpg" alt="Logo Pastorale Étudiante LLN" style="width:46px; height:46px; border-radius:50%;" />
+            <div>
+              <strong style="font-family:var(--font-display); font-size:1.05rem; color:#FFFFFF; display:block;">PASTORALE ÉTUDIANTE LLN</strong>
+              <span style="font-size:0.8rem; color:var(--pasto-yellow);">Paroisse Étudiante de Louvain-la-Neuve</span>
+            </div>
+          </div>
+          <p style="font-size:0.88rem; color:rgba(255,255,255,0.75); margin-bottom:1rem;">
+            Église Saint-François d'Assise<br/>
+            Avenue Jean-Libert Hennebel 30B, 1348 Louvain-la-Neuve (face au Martin's Agora).
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-col__title">Pages du site</h4>
+          <div class="footer-links">
+            <a href="accueil.html">Accueil</a>
+            <a href="agenda.html">Agenda &amp; Horaires</a>
+            <a href="photos.html">Galerie Photos</a>
+            <a href="kots.html">Les 11 Kots chrétiens</a>
+            <a href="equipe.html">L'Équipe &amp; Infos pratiques</a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-col__title">Rendez-vous</h4>
+          <div class="footer-links">
+            <span>⛪ Mercredi 18h30 : Messe Étudiants</span>
+            <span>🎬 Mardi 20h00 : Soirée Kot Carrefour</span>
+            <span>🕯️ Dimanche 20h00 : Messe Dominicains</span>
+            <span>🙏 Lun–Ven 18h00 : Adoration &amp; Confessions</span>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-col__title">Liens utiles</h4>
+          <div class="footer-links">
+            <a href="https://www.instagram.com/pastoralelln/" target="_blank" rel="noopener">📸 Instagram @pastoralelln</a>
+            <a href="https://www.paroissesaintfrancois.be/etudiants" target="_blank" rel="noopener">🌐 Paroisse Saint-François</a>
+            <a href="admin.html" style="color:var(--pasto-yellow); font-weight:700; margin-top:0.4rem;">
+              Accès Admin
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© Paroisse Étudiante de Louvain-la-Neuve — Pastorale Étudiante LLN (@pastoralelln)</span>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toastNotification" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

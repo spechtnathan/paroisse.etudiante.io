@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pastorale Étudiante de Louvain-la-Neuve — Version Épurée</title>
+  <meta name="description" content="Paroisse Étudiante de Louvain-la-Neuve (Pastorale Étudiante LLN) : Messe des Étudiants le mercredi à 18h30 à l'Église Saint-François, soirées The Chosen, P.A.F., chorale et 11 kots chrétiens." />
+  <link rel="icon" type="image/jpeg" href="assets/logo-ig.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles-epure.css" />
+</head>
+<body>
+
+  <!-- ========================================================================
+       BANNIÈRE DISCRÈTE + BOUTON DE BASCULE ENTRE LES 2 VERSIONS
+       ======================================================================== -->
+  <div class="top-banner">
+    <div class="top-banner__inner">
+      <div class="top-banner__content">
+        <span class="top-banner__pill" id="topBannerPill">Mercredi 18h30</span>
+        <span>•</span>
+        <span id="topBannerText">Messe des Étudiants chaque mercredi à 18h30 à l'Église Saint-François</span>
+      </div>
+      <div class="top-banner__links">
+        <a href="accueil.html" class="version-switch" title="Basculer vers la version Multi-Pages">
+          🗂️ Multi-Pages
+        </a>
+        <a href="index.html" class="version-switch" title="Basculer vers la version colorée">
+          🎨 Version Colorée
+        </a>
+        <a href="moderne.html" class="version-switch" title="Basculer vers la version spatiale 3D">
+          🚀 Version Spatiale 3D
+        </a>
+        <a href="https://www.instagram.com/pastoralelln/" target="_blank" rel="noopener">@pastoralelln</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       NAVIGATION MINIMALISTE
+       ======================================================================== -->
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <button class="brand" onclick="switchView('accueil')" aria-label="Accueil Pastorale Étudiante LLN">
+        <img src="assets/logo-ig.jpg" alt="Logo Pastorale Étudiante LLN" class="brand__logo" />
+        <div>
+          <span class="brand__title">Pastorale Étudiante</span>
+          <span class="brand__subtitle">Paroisse Étudiante • Louvain-la-Neuve</span>
+        </div>
+      </button>
+
+      <nav class="nav-links" id="navLinks" aria-label="Navigation principale">
+        <button class="nav-btn active" data-view="accueil" onclick="switchView('accueil')">
+          Accueil
+        </button>
+        <button class="nav-btn" data-view="agenda" onclick="switchView('agenda')">
+          Agenda &amp; Horaires <span class="nav-btn__badge" id="navEventsCount">5</span>
+        </button>
+        <button class="nav-btn" data-view="photos" onclick="switchView('photos')">
+          Photos <span class="nav-btn__badge" id="navPhotosCount">14</span>
+        </button>
+        <button class="nav-btn" data-view="kots" onclick="switchView('kots')">
+          Les Kots <span class="nav-btn__badge" id="navKotsCount">11</span>
+        </button>
+        <button class="nav-btn" onclick="switchView('accueil', 'equipe-contact-section')">
+          Équipe &amp; Contact
+        </button>
+      </nav>
+
+      <div class="navbar__actions">
+        <button class="btn--ghost" onclick="openComkotStudio()" title="Espace d'administration ComKot">
+          ComKot
+        </button>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Menu">
+          ☰
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       VUE 1 : ACCUEIL ÉPURÉ & ÉDITORIAL
+       ======================================================================== -->
+  <main id="view-accueil" class="view-section active">
+
+    <!-- HERO ÉDITORIAL SUR FOND CLAIR -->
+    <section class="hero-minimal">
+      <div class="container hero-minimal__grid">
+        <div>
+          <span class="eyebrow">Paroisse Étudiante de Louvain-la-Neuve</span>
+          <h1 class="hero-minimal__title">
+            Un lieu pour prier, grandir et <em>fraterniser</em> sur le campus.
+          </h1>
+          <p class="hero-minimal__lead">
+            Nouveau à Louvain-la-Neuve, habitué du mercredi soir ou simplement en questionnement : la Pastorale Étudiante t'accueille tout au long de l'année académique.
+          </p>
+
+          <!-- Encadré sobre pour la Messe du Mercredi -->
+          <div class="messe-minimal-box">
+            <div class="messe-minimal-box__top">
+              <span class="messe-minimal-box__label" id="spotlightTime">Mercredi à 18h30</span>
+              <span class="messe-minimal-box__kot">Préparée par : <strong id="spotlightKot">Le Calleg</strong></span>
+            </div>
+            <div class="messe-minimal-box__title">Messe des Étudiants à Saint-François</div>
+            <div class="messe-minimal-box__meta">
+              <span id="spotlightTheme">Animée par la chorale étudiante &amp; suivie d'un verre convivial</span>
+              <span id="spotlightLocation">📍 Église Saint-François d'Assise (face au Martin's Agora)</span>
+              <span id="spotlightSunday" style="display:none;"></span>
+            </div>
+          </div>
+
+          <div class="hero-minimal__ctas">
+            <button class="btn btn--primary" onclick="switchView('agenda')">
+              Agenda &amp; Horaires des messes
+            </button>
+            <button class="btn btn--outline" onclick="switchView('kots')">
+              Découvrir les 11 Kots
+            </button>
+          </div>
+        </div>
+
+        <div class="hero-minimal__visual">
+          <div class="hero-minimal__img-wrap">
+            <img src="assets/cpe-chorale.png" alt="Chorale étudiante et membres du CPE à l'Église Saint-François" />
+          </div>
+          <div class="hero-minimal__caption">
+            <span>Église Saint-François d'Assise • Louvain-la-Neuve</span>
+            <a href="https://www.instagram.com/pastoralelln/" target="_blank" rel="noopener">@pastoralelln ↗</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PARCOURS "JE VEUX..." -->
+    <section class="pathways-section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">Bienvenue</span>
+            <h2 class="section-title">Que cherches-tu <em>aujourd'hui ?</em></h2>
+          </div>
+        </div>
+
+        <div class="pathways-grid" id="pathwaysGrid"></div>
+      </div>
+    </section>
+
+    <!-- AGENDA DE LA SEMAINE & HORAIRES ESSENTIELS (Regroupés sobrement) -->
+    <section class="weekly-agenda-section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">Rythme hebdomadaire</span>
+            <h2 class="section-title">La semaine à la <em>Pasto</em></h2>
+            <p class="section-subtitle">
+              Nos rendez-vous réguliers durant les semaines de cours à Louvain-la-Neuve.
+            </p>
+          </div>
+          <button class="btn btn--outline" onclick="switchView('agenda')">
+            Calendrier complet →
+          </button>
+        </div>
+
+        <div class="weekly-grid" id="homeWeeklyGrid"></div>
+
+        <!-- Synthèse claire des horaires en 3 colonnes sans surcharge -->
+        <div class="horaires-minimal-strip" id="horaires-section">
+          <div>
+            <h3 class="horaire-col__title">Messes Étudiantes</h3>
+            <div class="horaire-col__list">
+              <span><strong>Mercredi 18h30</strong> — Église Saint-François (+ verre)</span>
+              <span><strong>Mercredi 17h30</strong> — Répétition de la chorale</span>
+              <span><strong>Dimanche 20h00</strong> — Couvent des Dominicains (+ repas)</span>
+            </div>
+          </div>
+          <div>
+            <h3 class="horaire-col__title">Messes Paroissiales</h3>
+            <div class="horaire-col__list">
+              <span><strong>Lun – Ven 18h30</strong> — Église Saint-François</span>
+              <span><strong>Dimanche 9h00 &amp; 10h30</strong> — Église Saint-François</span>
+              <span><strong>Mer 11h00 &amp; Sam 18h00</strong> — Chapelle de la Source</span>
+            </div>
+          </div>
+          <div>
+            <h3 class="horaire-col__title">Adoration &amp; Confessions</h3>
+            <div class="horaire-col__list">
+              <span><strong>Lun – Ven 18h00</strong> — Adoration &amp; Confessions (St-François)</span>
+              <span><strong>Mardi 20h00</strong> — Soirée <em>The Chosen</em> au Kot Carrefour</span>
+              <span><strong>Écoute &amp; Sacrements</strong> — Sur RDV avec un prêtre</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCHAINS ÉVÉNEMENTS -->
+    <section class="events-section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">Rendez-vous</span>
+            <h2 class="section-title">Prochains <em>événements</em></h2>
+          </div>
+          <button class="btn btn--outline" onclick="switchView('agenda')">
+            Tous les événements →
+          </button>
+        </div>
+
+        <div class="events-grid" id="homeEventsGrid"></div>
+      </div>
+    </section>
+
+    <!-- APERÇU PHOTOS -->
+    <section class="gallery-section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">En images</span>
+            <h2 class="section-title">Instants de <em>vie</em></h2>
+          </div>
+          <div style="display:flex; gap:0.6rem;">
+            <button class="btn btn--outline" onclick="switchView('photos')">
+              Tous les albums →
+            </button>
+          </div>
+        </div>
+
+        <div class="photos-masonry" id="homePhotosGrid"></div>
+      </div>
+    </section>
+
+    <!-- APERÇU KOTS -->
+    <section class="kots-section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">Vie communautaire</span>
+            <h2 class="section-title">Les Kots &amp; <em>Résidences</em></h2>
+            <p class="section-subtitle">
+              11 kots et résidences à projet chrétien ou spirituel présents sur le campus.
+            </p>
+          </div>
+          <button class="btn btn--outline" onclick="switchView('kots')">
+            Voir les 11 Kots →
+          </button>
+        </div>
+
+        <div class="kots-grid" id="homeKotsGrid"></div>
+      </div>
+    </section>
+
+    <!-- ÉQUIPE & INFOS PRATIQUES REGROUPÉES SOBREMENT -->
+    <section class="team-contact-section" id="equipe-section">
+      <div class="container" id="equipe-contact-section">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">Accompagnement</span>
+            <h2 class="section-title">L'équipe <em>« La Pastèque »</em> &amp; le CPE</h2>
+            <p class="section-subtitle">
+              Prêtres, animateurs pastoraux et étudiants du CPE (reconnaissables à leur foulard rouge le mercredi soir) sont à ta disposition.
+            </p>
+          </div>
+        </div>
+
+        <div class="team-members-grid" id="teamMembersGrid"></div>
+
+        <div class="practical-box" id="contact-section">
+          <div>
+            <span class="eyebrow">Nous rejoindre</span>
+            <h3 class="section-title" style="font-size: 1.85rem; margin-bottom: 0.65rem;">
+              Église Saint-François d'Assise
+            </h3>
+            <p style="color: var(--text-muted); font-size: 0.94rem; margin-bottom: 1.25rem;">
+              Avenue Jean-Libert Hennebel 30B, 1348 Louvain-la-Neuve (en plein centre piétonnier, juste en face de l'hôtel Martin's Agora). Retrouve aussi nos actualités chaque semaine sur Instagram et sur l'application paroissiale <strong>OClocher</strong>.
+            </p>
+            <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+              <a href="https://www.instagram.com/pastoralelln/" target="_blank" rel="noopener" class="btn btn--primary">
+                Écrire sur @pastoralelln
+              </a>
+              <a href="https://www.google.com/maps/search/?api=1&query=Eglise+Saint-Francois+d+Assise+Louvain-la-Neuve" target="_blank" rel="noopener" class="btn btn--outline">
+                Google Maps ↗
+              </a>
+              <a href="https://www.paroissesaintfrancois.be/etudiants" target="_blank" rel="noopener" class="btn btn--outline">
+                Paroisse Saint-François ↗
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <img src="assets/equipe-pasteque.png" alt="L'équipe pastorale de Louvain-la-Neuve" style="border-radius: var(--radius-md); width: 100%; height: 220px; object-fit: cover;" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================================
+       VUE 2 : AGENDA COMPLET
+       ======================================================================== -->
+  <section id="view-agenda" class="view-section">
+    <div class="weekly-agenda-section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">Programme hebdomadaire</span>
+            <h1 class="section-title">Agenda de la <em>semaine</em></h1>
+          </div>
+          <button class="btn btn--outline" onclick="openComkotStudio(); switchStudioTab('weekly')">
+            Modifier l'agenda (ComKot)
+          </button>
+        </div>
+        <div class="weekly-grid" id="agendaWeeklyGrid"></div>
+      </div>
+    </div>
+
+    <div class="events-section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">Calendrier</span>
+            <h2 class="section-title">Tous les <em>événements</em></h2>
+          </div>
+          <button class="btn btn--primary" onclick="openComkotStudio(); switchStudioTab('events')">
+            + Ajouter un événement
+          </button>
+        </div>
+        <div class="filter-bar" id="eventsFilterBar"></div>
+        <div class="events-grid" id="fullEventsGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       VUE 3 : GALERIE PHOTOS
+       ======================================================================== -->
+  <section id="view-photos" class="view-section">
+    <div class="gallery-section" style="min-height: 75vh; background: var(--bg-page);">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">Albums</span>
+            <h1 class="section-title">Galerie <em>photos</em></h1>
+          </div>
+          <button class="btn btn--primary" onclick="openComkotStudio(); switchStudioTab('photos')">
+            + Publier des photos
+          </button>
+        </div>
+        <div class="albums-bar" id="albumsFilterBar"></div>
+        <div class="photos-masonry" id="fullPhotosGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       VUE 4 : ANNUAIRE DES KOTS
+       ======================================================================== -->
+  <section id="view-kots" class="view-section">
+    <div class="kots-section" style="min-height: 75vh;">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">Communautés étudiantes</span>
+            <h1 class="section-title">Les 11 Kots &amp; <em>Résidences</em></h1>
+          </div>
+          <button class="btn btn--outline" onclick="openComkotStudio(); switchStudioTab('kots')">
+            Éditer les Kots
+          </button>
+        </div>
+
+        <div class="kots-search-row">
+          <div class="search-input-wrap">
+            <span class="search-input-icon">🔍</span>
+            <input type="search" id="kotSearchInput" class="search-input" placeholder="Rechercher un kot..." />
+          </div>
+          <div class="filter-bar" id="kotsFilterBar" style="margin-bottom:0;"></div>
+        </div>
+
+        <div class="kots-grid" id="fullKotsGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       PIED DE PAGE MINIMALISTE
+       ======================================================================== -->
+  <footer class="site-footer">
+    <div class="container footer-minimal-inner">
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <img src="assets/logo-ig.jpg" alt="" style="width:32px; height:32px; border-radius:50%;" />
+        <span><strong>Pastorale Étudiante de Louvain-la-Neuve</strong> • Église Saint-François d'Assise</span>
+      </div>
+      <div style="display:flex; gap:1.25rem; align-items:center; flex-wrap:wrap;">
+        <a href="index.html">Version Colorée</a>
+        <a href="https://www.instagram.com/pastoralelln/" target="_blank" rel="noopener">Instagram @pastoralelln</a>
+        <a href="https://www.paroissesaintfrancois.be/etudiants" target="_blank" rel="noopener">Paroisse St-François</a>
+        <button onclick="openComkotStudio()" style="color:var(--pasto-red); font-weight:600;">Espace ComKot</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       MODALES PARTAGÉES (Parcours, Lightbox & ComKot Studio)
+       ======================================================================== -->
+  <div class="modal-backdrop" id="pathwayModal" onclick="if(event.target===this) closeModal('pathwayModal')">
+    <div class="modal-box" role="dialog" aria-modal="true">
+      <button class="modal-close" onclick="closeModal('pathwayModal')" aria-label="Fermer">✕</button>
+      <div id="pathwayModalContent"></div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="lightboxModal" onclick="if(event.target===this) closeModal('lightboxModal')">
+    <div class="lightbox-box" role="dialog" aria-modal="true">
+      <button class="modal-close" style="top:-10px; right:0; background:#FFFFFF;" onclick="closeModal('lightboxModal')" aria-label="Fermer">✕</button>
+      <img id="lightboxImage" src="" alt="" class="lightbox-img" />
+      <div class="lightbox-bar">
+        <button class="btn btn--outline-light" style="padding:0.4rem 0.85rem;" onclick="stepLightbox(-1)">← Précédente</button>
+        <div style="text-align:center;">
+          <div id="lightboxAlbum" style="font-size:0.72rem; font-weight:600; opacity:0.8; text-transform:uppercase;"></div>
+          <div id="lightboxCaption" style="font-size:0.9rem;"></div>
+          <div id="lightboxCounter" style="font-size:0.72rem; opacity:0.65;"></div>
+        </div>
+        <button class="btn btn--outline-light" style="padding:0.4rem 0.85rem;" onclick="stepLightbox(1)">Suivante →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="comkotModal" onclick="if(event.target===this) closeModal('comkotModal')">
+    <div class="modal-box modal-box--wide" role="dialog" aria-modal="true">
+      <button class="modal-close" style="background:rgba(255,255,255,0.15); color:#FFFFFF;" onclick="closeModal('comkotModal')" aria-label="Fermer">✕</button>
+
+      <div class="studio-header">
+        <div style="display:flex; align-items:center; gap:0.75rem;">
+          <img src="assets/logo-ig.jpg" alt="" style="width:36px; height:36px; border-radius:50%;" />
+          <div>
+            <h2 style="font-size:1.1rem; font-weight:700;">Espace ComKot — Studio</h2>
+            <p style="font-size:0.78rem; opacity:0.8;">Les modifications s'appliquent automatiquement aux deux versions du site</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="studioLockScreen" style="padding: 3rem 2rem; text-align: center;">
+        <div style="max-width: 360px; margin: 0 auto;">
+          <h3 style="font-family: var(--font-serif); font-size: 1.5rem; margin-bottom: 0.4rem;">Accès ComKot</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.2rem;">
+            Code par défaut : <code>pasto1348</code>
+          </p>
+          <form onsubmit="unlockComkotStudio(event)" style="display:flex; gap:0.5rem;">
+            <input type="password" id="comkotPinInput" class="form-input" style="flex:1;" placeholder="Code d'accès..." required />
+            <button type="submit" class="btn btn--primary">Entrer</button>
+          </form>
+        </div>
+      </div>
+
+      <div id="studioMainScreen" style="display: none;">
+        <div class="studio-tabs">
+          <button class="studio-tab active" data-studio-tab="weekly" onclick="switchStudioTab('weekly')">1. Messe &amp; Semaine</button>
+          <button class="studio-tab" data-studio-tab="events" onclick="switchStudioTab('events')">2. Événements</button>
+          <button class="studio-tab" data-studio-tab="photos" onclick="switchStudioTab('photos')">3. Photos</button>
+          <button class="studio-tab" data-studio-tab="kots" onclick="switchStudioTab('kots')">4. Kots &amp; Équipe</button>
+          <button class="studio-tab" data-studio-tab="cloud" onclick="switchStudioTab('cloud')">5. Cloud &amp; Export</button>
+        </div>
+
+        <div class="studio-body">
+          <div class="studio-panel active" id="studio-panel-weekly">
+            <form onsubmit="saveSpotlightAndWeekly(event)">
+              <div class="form-grid" style="margin-bottom: 1.5rem;">
+                <div class="form-group">
+                  <label class="form-label">Kot préparant la Messe du mercredi</label>
+                  <input type="text" id="adminWedKot" class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Horaire Messe du mercredi</label>
+                  <input type="text" id="adminWedTime" class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Sous-titre Messe</label>
+                  <input type="text" id="adminWedTheme" class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Lieu Messe</label>
+                  <input type="text" id="adminWedLocation" class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Badge bannière</label>
+                  <input type="text" id="adminBannerPill" class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Texte bannière</label>
+                  <input type="text" id="adminBannerText" class="form-input" />
+                </div>
+              </div>
+
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+                <strong style="font-size:0.9rem;">Créneaux de la semaine</strong>
+                <button type="button" class="btn btn--outline" style="padding:0.35rem 0.75rem; font-size:0.75rem;" onclick="addWeeklyItem()">+ Ajouter un jour</button>
+              </div>
+              <div id="adminWeeklyList" style="margin-bottom:1.25rem;"></div>
+              <button type="submit" class="btn btn--primary">Enregistrer</button>
+            </form>
+          </div>
+
+          <div class="studio-panel" id="studio-panel-events">
+            <form id="addEventForm" onsubmit="addNewEvent(event)" style="margin-bottom:2rem; padding-bottom:1.5rem; border-bottom:1px solid var(--border-hairline);">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label">Titre *</label>
+                  <input type="text" id="newEvtTitle" class="form-input" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Catégorie</label>
+                  <select id="newEvtCategory" class="form-select">
+                    <option value="Messe">Messe</option>
+                    <option value="Soirée & Foi">Soirée &amp; Foi</option>
+                    <option value="Solidarité">Solidarité</option>
+                    <option value="Retraite & Pélé">Retraite &amp; Pélé</option>
+                    <option value="Vie des Kots">Vie des Kots</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Date</label>
+                  <input type="date" id="newEvtDate" class="form-input" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Horaire</label>
+                  <input type="text" id="newEvtTime" class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Lieu</label>
+                  <input type="text" id="newEvtLocation" class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Lien</label>
+                  <input type="url" id="newEvtLink" class="form-input" />
+                </div>
+                <div class="form-group form-group--full">
+                  <label class="form-label">Description</label>
+                  <textarea id="newEvtDesc" class="form-textarea" rows="2"></textarea>
+                </div>
+                <div class="form-group form-group--full">
+                  <label class="form-label">Image (compression auto)</label>
+                  <input type="file" accept="image/*" onchange="handleEventImageSelect(this)" class="form-input" />
+                  <img id="adminEventImgPreview" src="" alt="" style="display:none; width:120px; height:80px; object-fit:cover; border-radius:6px; margin-top:0.4rem;" />
+                </div>
+              </div>
+              <button type="submit" class="btn btn--primary" style="margin-top:1rem;">Publier l'événement</button>
+            </form>
+            <div id="adminEventsList"></div>
+          </div>
+
+          <div class="studio-panel" id="studio-panel-photos">
+            <form id="addPhotosForm" onsubmit="publishGalleryPhotos(event)" style="margin-bottom:2rem; padding-bottom:1.5rem; border-bottom:1px solid var(--border-hairline);">
+              <div class="form-grid" style="margin-bottom:1rem;">
+                <div class="form-group">
+                  <label class="form-label">Album *</label>
+                  <input type="text" id="newPhotoAlbum" list="existingAlbumsList" class="form-input" placeholder="Messe des Étudiants..." required />
+                  <datalist id="existingAlbumsList"></datalist>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Période</label>
+                  <input type="text" id="newPhotoDate" class="form-input" placeholder="Octobre 2026" />
+                </div>
+                <div class="form-group form-group--full">
+                  <label class="form-label">Légende</label>
+                  <input type="text" id="newPhotoCaption" class="form-input" />
+                </div>
+              </div>
+              <label class="dropzone" style="display:block; margin-bottom:1rem;">
+                <input type="file" accept="image/*" multiple onchange="handleGalleryFilesSelect(this)" style="display:none;" />
+                <strong id="galleryUploadStatus" style="color:var(--pasto-red);">Sélectionner une ou plusieurs photos (compression WebP automatique)</strong>
+              </label>
+              <button type="submit" class="btn btn--primary">Publier les photos</button>
+            </form>
+            <div id="adminPhotosList"></div>
+          </div>
+
+          <div class="studio-panel" id="studio-panel-kots">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+              <div>
+                <h4 style="margin-bottom:0.6rem;">Ajouter un Kot</h4>
+                <form id="addKotForm" onsubmit="addNewKot(event)" style="display:flex; flex-direction:column; gap:0.5rem; margin-bottom:1rem;">
+                  <input type="text" id="newKotName" class="form-input" placeholder="Nom *" required />
+                  <input type="text" id="newKotType" class="form-input" placeholder="Type" />
+                  <input type="text" id="newKotIcon" class="form-input" placeholder="Icône (🏠)" />
+                  <input type="text" id="newKotContact" class="form-input" placeholder="Contact" />
+                  <input type="text" id="newKotTags" class="form-input" placeholder="Tags (séparés par virgule)" />
+                  <textarea id="newKotDesc" class="form-textarea" rows="2" placeholder="Description"></textarea>
+                  <button type="submit" class="btn btn--primary">+ Ajouter</button>
+                </form>
+                <div id="adminKotsList"></div>
+              </div>
+              <div>
+                <h4 style="margin-bottom:0.6rem;">Ajouter un membre Équipe</h4>
+                <form id="addTeamForm" onsubmit="addNewTeamMember(event)" style="display:flex; flex-direction:column; gap:0.5rem; margin-bottom:1rem;">
+                  <input type="text" id="newTeamName" class="form-input" placeholder="Nom *" required />
+                  <input type="text" id="newTeamRole" class="form-input" placeholder="Rôle" />
+                  <input type="text" id="newTeamDetail" class="form-input" placeholder="Détail" />
+                  <button type="submit" class="btn btn--primary">+ Ajouter</button>
+                </form>
+                <div id="adminTeamList"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="studio-panel" id="studio-panel-cloud">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+              <form onsubmit="saveSupabaseConfigForm(event)" style="display:flex; flex-direction:column; gap:0.65rem;">
+                <h4>Synchronisation Supabase</h4>
+                <input type="url" id="adminSupaUrl" class="form-input" placeholder="https://xxxx.supabase.co" />
+                <input type="text" id="adminSupaKey" class="form-input" placeholder="Supabase Anon Key" />
+                <button type="submit" class="btn btn--primary">Enregistrer Supabase</button>
+              </form>
+              <div style="display:flex; flex-direction:column; gap:0.65rem;">
+                <h4>Sauvegarde fichier</h4>
+                <button type="button" class="btn btn--outline" onclick="exportDataJsFile()">Télécharger data.js</button>
+                <button type="button" class="btn btn--outline" onclick="resetToDefaultData()">Réinitialiser par défaut</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastNotification" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
